@@ -11,6 +11,7 @@ public class Rank {
     private Long id;
 
     private String naam;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy="rank")
     private List<Controleur> controleurList;
 
@@ -36,14 +37,5 @@ public class Rank {
 
     public void setControleurList(List<Controleur> controleurList) {
         this.controleurList = controleurList;
-    }
-
-    @Override
-    public String toString() {
-        return "Rank{" +
-                "id=" + id +
-                ", naam='" + naam + '\'' +
-                ", controleurList=" + controleurList +
-                '}';
     }
 }

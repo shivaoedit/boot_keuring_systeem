@@ -1,6 +1,7 @@
 package sr.unasat.boot_keuring_systeem.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="controleurs")
@@ -12,13 +13,24 @@ public class Controleur {
     private String naam;
     private String voorNaam;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "nummer_id", referencedColumnName = "id")
-//    private ControleurNummer controleurNummer;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "nummer_id", referencedColumnName = "id")
+    private ControleurNummer controleurNummer;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="rank_id", nullable=false)
     private Rank rank;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @Column
+    @JoinTable(
+            name = "keuringen",
+            joinColumns = { @JoinColumn(name = "controleur_id") },
+            inverseJoinColumns = { @JoinColumn(name = "boot_id") }
+    )
+    private List<Boot> bootList;
+
+    public Controleur(){}
 
     public Long getId() {
         return id;
@@ -44,13 +56,13 @@ public class Controleur {
         this.voorNaam = voorNaam;
     }
 
-//    public ControleurNummer getControleurNummer() {
-//        return controleurNummer;
-//    }
-//
-//    public void setControleurNummer(ControleurNummer controleurNummer) {
-//        this.controleurNummer = controleurNummer;
-//    }
+    public ControleurNummer getControleurNummer() {
+        return controleurNummer;
+    }
+
+    public void setControleurNummer(ControleurNummer controleurNummer) {
+        this.controleurNummer = controleurNummer;
+    }
 
     public Rank getRank() {
         return rank;
@@ -60,14 +72,11 @@ public class Controleur {
         this.rank = rank;
     }
 
-    @Override
-    public String toString() {
-        return "Controleur{" +
-                "id=" + id +
-                ", naam='" + naam + '\'' +
-                ", voorNaam='" + voorNaam + '\'' +
-//                ", controleurNummer=" + controleurNummer +
-                ", rank=" + rank +
-                '}';
+    public List<Boot> getBootList() {
+        return bootList;
+    }
+
+    public void setBootList(List<Boot> bootList) {
+        this.bootList = bootList;
     }
 }

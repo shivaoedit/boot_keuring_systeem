@@ -9,7 +9,6 @@ public class ControleurNummer {
     @GeneratedValue()
     private Long id;
 
-    @Column(name="controleur_nummer")
     private String controleurNummer;
 
     public Long getId() {
@@ -26,13 +25,5 @@ public class ControleurNummer {
 
     public void setControleurNummer(String controleurNummerl) {
         this.controleurNummer = controleurNummerl;
-    }
-
-    @Override
-    public String toString() {
-        return "ControleurNummer{" +
-                "id=" + id +
-                ", controleurNummer='" + controleurNummer + '\'' +
-                '}';
     }
 }
