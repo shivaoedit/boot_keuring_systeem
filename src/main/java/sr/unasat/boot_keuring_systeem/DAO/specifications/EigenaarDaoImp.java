@@ -2,9 +2,7 @@ package sr.unasat.boot_keuring_systeem.DAO.specifications;
 
 import sr.unasat.boot_keuring_systeem.DAO.standards.EigenaarDao;
 import sr.unasat.boot_keuring_systeem.entities.Eigenaar;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class EigenaarDaoImp implements EigenaarDao {
@@ -33,19 +31,17 @@ public class EigenaarDaoImp implements EigenaarDao {
         entityManager.getTransaction().commit();
     }
 
-    @Override
-    public void updateEigenaar(Long id){
+    public List<Eigenaar> findEigenaar(String keyword){
         entityManager.getTransaction().begin();
-        Eigenaar eigenaar = entityManager.find( Eigenaar.class, id);
-        entityManager.persist(eigenaar);
-        entityManager.getTransaction().commit();
-    }
 
-    @Override
-    public void deleteEigenaar(Long id){
-        entityManager.getTransaction().begin();
-        Eigenaar eigenaar = entityManager.find( Eigenaar.class, id);
-        entityManager.remove(eigenaar);
+        String jpql = "SELECT e FROM Eigenaar e WHERE e.naam LIKE :naam OR e.voorNaam LIKE :voornaam";
+        Query query = entityManager.createQuery(jpql, Eigenaar.class);
+        query.setParameter("voornaam", "%" + keyword + "%");
+        query.setParameter("naam", "%" + keyword + "%");
+
+        List<Eigenaar> eigenaarList = query.getResultList();
+
         entityManager.getTransaction().commit();
+        return eigenaarList;
     }
 }

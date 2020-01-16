@@ -14,7 +14,7 @@ public class Eigenaar {
     private String voorNaam;
     private String geboorteDatum;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "paspoort_id", referencedColumnName = "id")
     private Paspoort paspoort;
 
@@ -23,6 +23,13 @@ public class Eigenaar {
     private List<Boot> bootlist;
 
     public Eigenaar(){}
+
+    public Eigenaar(String naam, String voorNaam, String geboorteDatum, Paspoort paspoort) {
+        this.naam = naam;
+        this.voorNaam = voorNaam;
+        this.geboorteDatum = geboorteDatum;
+        this.paspoort = paspoort;
+    }
 
     public Long getId() {
         return id;
@@ -70,5 +77,16 @@ public class Eigenaar {
 
     public void setBootlist(List<Boot> bootlist) {
         this.bootlist = bootlist;
+    }
+
+    @Override
+    public String toString() {
+        return "Eigenaar{" +
+                "id='" + id + '\'' +
+                ", naam='" + naam + '\'' +
+                ", voorNaam='" + voorNaam + '\'' +
+                ", geboorteDatum='" + geboorteDatum + '\'' +
+                ", paspoort=" + paspoort +
+                '}';
     }
 }
