@@ -1,8 +1,6 @@
 package sr.unasat.boot_keuring_systeem.config;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 public class JPAConfiguration {
     private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("boot_keuringen");

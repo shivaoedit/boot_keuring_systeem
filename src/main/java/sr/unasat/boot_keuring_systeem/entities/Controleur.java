@@ -13,24 +13,31 @@ public class Controleur {
     private String naam;
     private String voorNaam;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    private String gebruikersNaam;
+    private String wachtwoord;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "nummer_id", referencedColumnName = "id")
     private ControleurNummer controleurNummer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="rank_id", nullable=false)
     private Rank rank;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="controleur")
     @Column
-    @JoinTable(
-            name = "keuringen",
-            joinColumns = { @JoinColumn(name = "controleur_id") },
-            inverseJoinColumns = { @JoinColumn(name = "boot_id") }
-    )
-    private List<Boot> bootList;
+    private List<Keuring> keuringList;
 
     public Controleur(){}
+
+    public Controleur(String naam, String voorNaam, String gebruikersNaam, String wachtwoord, ControleurNummer controleurNummer, Rank rank) {
+        this.naam = naam;
+        this.voorNaam = voorNaam;
+        this.gebruikersNaam = gebruikersNaam;
+        this.wachtwoord = wachtwoord;
+        this.controleurNummer = controleurNummer;
+        this.rank = rank;
+    }
 
     public Long getId() {
         return id;
@@ -56,6 +63,22 @@ public class Controleur {
         this.voorNaam = voorNaam;
     }
 
+    public String getGebruikersNaam() {
+        return gebruikersNaam;
+    }
+
+    public void setGebruikersNaam(String gebruikersNaam) {
+        this.gebruikersNaam = gebruikersNaam;
+    }
+
+    public String getWachtwoord() {
+        return wachtwoord;
+    }
+
+    public void setWachtwoord(String wachtwoord) {
+        this.wachtwoord = wachtwoord;
+    }
+
     public ControleurNummer getControleurNummer() {
         return controleurNummer;
     }
@@ -72,11 +95,23 @@ public class Controleur {
         this.rank = rank;
     }
 
-    public List<Boot> getBootList() {
-        return bootList;
+    public List<Keuring> getKeuringList() {
+        return keuringList;
     }
 
-    public void setBootList(List<Boot> bootList) {
-        this.bootList = bootList;
+    public void setKeuringList(List<Keuring> keuringList) {
+        this.keuringList = keuringList;
+    }
+
+    @Override
+    public String toString() {
+        return "Controleur{" +
+                "id='" + id + '\'' +
+                ", naam='" + naam + '\'' +
+                ", voorNaam='" + voorNaam + '\'' +
+                ", gebruikersNaam='" + gebruikersNaam + '\'' +
+                ", controleurNummer=" + controleurNummer +
+                ", rank=" + rank +
+            '}';
     }
 }

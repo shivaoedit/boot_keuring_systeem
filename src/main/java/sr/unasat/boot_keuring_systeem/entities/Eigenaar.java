@@ -1,6 +1,7 @@
 package sr.unasat.boot_keuring_systeem.entities;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -12,9 +13,9 @@ public class Eigenaar {
 
     private String naam;
     private String voorNaam;
-    private String geboorteDatum;
+    private LocalDate geboorteDatum;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paspoort_id", referencedColumnName = "id")
     private Paspoort paspoort;
 
@@ -24,7 +25,7 @@ public class Eigenaar {
 
     public Eigenaar(){}
 
-    public Eigenaar(String naam, String voorNaam, String geboorteDatum, Paspoort paspoort) {
+    public Eigenaar(String naam, String voorNaam, LocalDate geboorteDatum, Paspoort paspoort) {
         this.naam = naam;
         this.voorNaam = voorNaam;
         this.geboorteDatum = geboorteDatum;
@@ -55,11 +56,11 @@ public class Eigenaar {
         this.voorNaam = voorNaam;
     }
 
-    public String getGeboorteDatum() {
+    public LocalDate getGeboorteDatum() {
         return geboorteDatum;
     }
 
-    public void setGeboorteDatum(String geboorteDatum) {
+    public void setGeboorteDatum(LocalDate geboorteDatum) {
         this.geboorteDatum = geboorteDatum;
     }
 
@@ -87,6 +88,6 @@ public class Eigenaar {
                 ", voorNaam='" + voorNaam + '\'' +
                 ", geboorteDatum='" + geboorteDatum + '\'' +
                 ", paspoort=" + paspoort +
-                '}';
+            '}';
     }
 }

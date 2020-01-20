@@ -6,4 +6,7 @@ import java.util.List;
 public interface EigenaarDao {
     List<Eigenaar> getAllEigenaren();
     void addEigenaar(Eigenaar eigenaar);
+    void updateEigenaar(Eigenaar eigenaar);
+    void deleteEigenaar(Eigenaar eigenaar);
+    List<Eigenaar> findEigenaar(String keyword);
 }

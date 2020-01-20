@@ -10,7 +10,7 @@ public class Boot {
     @GeneratedValue()
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="eigenaar_id", nullable=false)
     private Eigenaar eigenaar;
 
@@ -25,16 +25,17 @@ public class Boot {
     @ManyToMany(cascade = CascadeType.PERSIST)
     @Column
     @JoinTable(
-            name = "boot_eigenschap",
-            joinColumns = { @JoinColumn(name = "boot_id") },
-            inverseJoinColumns = { @JoinColumn(name = "eigenschap_id") }
+        name = "boot_eigenschap",
+        joinColumns = { @JoinColumn(name = "boot_id") },
+        inverseJoinColumns = { @JoinColumn(name = "eigenschap_id") }
     )
     private List<Eigenschap> eigenschapList;
 
     private String shipCode;
     private String bootNaam;
-    private String kleur;
     private String bouwjaar;
+
+    private String kleur;
     private String lengte;
     private String breedte;
     private String mast;
@@ -83,6 +84,14 @@ public class Boot {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public List<KeuringBewijs> getKeuringBewijslist() {
+        return keuringBewijslist;
+    }
+
+    public void setKeuringBewijslist(List<KeuringBewijs> keuringBewijslist) {
+        this.keuringBewijslist = keuringBewijslist;
     }
 
     public List<Eigenschap> getEigenschapList() {
@@ -173,14 +182,35 @@ public class Boot {
         this.brandstof = brandstof;
     }
 
+    public String detailsForKeuring(){
+        return "Boot{" +
+                "kleur=" + kleur +
+                ", lengte=" + lengte +
+                ", breedte=" + breedte +
+                ", mast=" + mast +
+                ", spanten=" + spanten +
+                ", motorMerk=" + motorMerk +
+                ", brandstof=" + brandstof +
+            '}';
+    }
+
     @Override
     public String toString() {
+        String keuring = null;
+
+        if(!keuringBewijslist.isEmpty()) {
+            keuring = keuringBewijslist.get(keuringBewijslist.size() - 1).toString();
+        }
+
         return "Boot{" +
-                "shipCode='" + shipCode + '\'' +
+                "id=" + id +
+                ", eigenaar='" + eigenaar.getVoorNaam() + " " + eigenaar.getNaam() + '\'' +
+                ", type=" + type +
+                ", shipCode='" + shipCode + '\'' +
                 ", bootNaam='" + bootNaam + '\'' +
-                ", kleur='" + kleur + '\'' +
                 ", bouwjaar='" + bouwjaar + '\'' +
-                '}';
+                ", keuringsBewijs='" + keuring + '\'' +
+            '}';
     }
 
     public static class BootBuilder{

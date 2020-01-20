@@ -1,6 +1,8 @@
-package sr.unasat.boot_keuring_systeem.chain;
+package sr.unasat.boot_keuring_systeem.config;
 
-public class SetUpChain {
+import sr.unasat.boot_keuring_systeem.chain.*;
+
+public class ChainConfiguration {
     private static ControleurChain controleurChain;
 
     static{
@@ -17,5 +19,4 @@ public class SetUpChain {
 
     public static ControleurChain getControleurChain(){
         return controleurChain;
-    }
-}
+    }}

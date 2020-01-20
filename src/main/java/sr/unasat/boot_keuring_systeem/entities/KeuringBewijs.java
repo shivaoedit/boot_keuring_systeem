@@ -1,6 +1,7 @@
 package sr.unasat.boot_keuring_systeem.entities;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="keuring_bewijzen")
@@ -9,14 +10,19 @@ public class KeuringBewijs {
     @GeneratedValue()
     private Long id;
 
-    private String keuringsDatum;
-    private String vervalDatum;
+    private LocalDate keuringsDatum;
+    private LocalDate vervalDatum;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="boot_id", nullable=false)
     private Boot boot;
 
     public KeuringBewijs(){}
+
+    public KeuringBewijs(LocalDate keuringsDatum, LocalDate vervalDatum) {
+        this.keuringsDatum = keuringsDatum;
+        this.vervalDatum = vervalDatum;
+    }
 
     public Long getId() {
         return id;
@@ -26,19 +32,19 @@ public class KeuringBewijs {
         this.id = id;
     }
 
-    public String getKeuringsDatum() {
+    public LocalDate getKeuringsDatum() {
         return keuringsDatum;
     }
 
-    public void setKeuringsDatum(String keuringsDatum) {
+    public void setKeuringsDatum(LocalDate keuringsDatum) {
         this.keuringsDatum = keuringsDatum;
     }
 
-    public String getVervalDatum() {
+    public LocalDate getVervalDatum() {
         return vervalDatum;
     }
 
-    public void setVervalDatum(String vervalDatum) {
+    public void setVervalDatum(LocalDate vervalDatum) {
         this.vervalDatum = vervalDatum;
     }
 
@@ -48,5 +54,13 @@ public class KeuringBewijs {
 
     public void setBoot(Boot boot) {
         this.boot = boot;
+    }
+
+    @Override
+    public String toString() {
+        return "KeuringBewijs{" +
+                "keuringsDatum=" + keuringsDatum +
+                ", vervalDatum=" + vervalDatum +
+            '}';
     }
 }

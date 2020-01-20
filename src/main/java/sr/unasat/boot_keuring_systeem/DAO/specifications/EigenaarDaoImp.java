@@ -31,6 +31,21 @@ public class EigenaarDaoImp implements EigenaarDao {
         entityManager.getTransaction().commit();
     }
 
+    @Override
+    public void updateEigenaar(Eigenaar eigenaar){
+        entityManager.getTransaction().begin();
+        entityManager.persist(eigenaar);
+        entityManager.getTransaction().commit();
+    }
+
+    @Override
+    public void deleteEigenaar(Eigenaar eigenaar){
+        entityManager.getTransaction().begin();
+        entityManager.remove(eigenaar);
+        entityManager.getTransaction().commit();
+    }
+
+    @Override
     public List<Eigenaar> findEigenaar(String keyword){
         entityManager.getTransaction().begin();
 

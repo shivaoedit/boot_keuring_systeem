@@ -9,11 +9,9 @@ public class Rank {
     @Id
     @GeneratedValue()
     private Long id;
-
     private String naam;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="rank")
-    private List<Controleur> controleurList;
+    public Rank(){}
 
     public Long getId() {
         return id;
@@ -31,11 +29,11 @@ public class Rank {
         this.naam = naam;
     }
 
-    public List<Controleur> getControleurList() {
-        return controleurList;
-    }
-
-    public void setControleurList(List<Controleur> controleurList) {
-        this.controleurList = controleurList;
+    @Override
+    public String toString() {
+        return "Rank{" +
+                "id=" + id +
+                ", naam='" + naam + '\'' +
+            '}';
     }
 }

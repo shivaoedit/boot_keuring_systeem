@@ -12,9 +12,6 @@ public class Paspoort {
     private String paspoortNummer;
     private String landCode;
 
-    @OneToOne(mappedBy="paspoort")
-    private Eigenaar eigenaar;
-
     public Paspoort(){}
 
     public Paspoort(String paspoortNummer, String landCode) {
@@ -46,19 +43,11 @@ public class Paspoort {
         this.landCode = landCode;
     }
 
-    public Eigenaar getEigenaar() {
-        return eigenaar;
-    }
-
-    public void setEigenaar(Eigenaar eigenaar) {
-        this.eigenaar = eigenaar;
-    }
-
     @Override
     public String toString() {
         return "Paspoort{" +
                 "paspoortNummer='" + paspoortNummer + '\'' +
                 ", landCode='" + landCode + '\'' +
-                '}';
+            '}';
     }
 }

@@ -1,7 +1,6 @@
 package sr.unasat.boot_keuring_systeem.factory;
 
 import sr.unasat.boot_keuring_systeem.config.JPAConfiguration;
-import sr.unasat.boot_keuring_systeem.entities.Controleur;
 import sr.unasat.boot_keuring_systeem.entities.Type;
 
 import javax.persistence.EntityManager;
@@ -11,7 +10,8 @@ public class TypeFactory {
 
     public static Type getType(String typeNaam){
         entityManager.getTransaction().begin();
-        Type type;
+        Type type = null;
+
         if(typeNaam.equalsIgnoreCase("waterscooter")){
             type = entityManager.find( Type.class, 1L);
         }else if(typeNaam.equalsIgnoreCase("passagiersboot")){
@@ -28,8 +28,6 @@ public class TypeFactory {
             type = entityManager.find( Type.class, 7L);
         }else if(typeNaam.equalsIgnoreCase("schip")){
             type = entityManager.find( Type.class, 8L);
-        }else{
-            type = null;
         }
 
         entityManager.getTransaction().commit();

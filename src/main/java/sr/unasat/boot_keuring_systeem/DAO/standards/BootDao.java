@@ -6,6 +6,7 @@ import java.util.List;
 public interface BootDao {
     List<Boot> getAllBoten();
     void addBoot(Boot boot);
-    void updateBoot(Long id);
-    void deleteBoot(Long id);
+    void updateBoot(Boot boot);
+    List<Boot> findBootByEigenaar(long eigenaarId);
+    List<Boot> findBootByKeyword(long eigenaarId, String keyword);
 }

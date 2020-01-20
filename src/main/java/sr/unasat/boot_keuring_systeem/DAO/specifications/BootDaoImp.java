@@ -3,9 +3,7 @@ package sr.unasat.boot_keuring_systeem.DAO.specifications;
 import sr.unasat.boot_keuring_systeem.DAO.standards.BootDao;
 import sr.unasat.boot_keuring_systeem.entities.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class BootDaoImp implements BootDao {
@@ -35,21 +33,13 @@ public class BootDaoImp implements BootDao {
     }
 
     @Override
-    public void updateBoot(Long id){
+    public void updateBoot(Boot boot){
         entityManager.getTransaction().begin();
-        Boot boot = entityManager.find( Boot.class, id);
         entityManager.persist(boot);
         entityManager.getTransaction().commit();
     }
 
     @Override
-    public void deleteBoot(Long id){
-        entityManager.getTransaction().begin();
-        Boot boot = entityManager.find( Boot.class, id);
-        entityManager.remove(boot);
-        entityManager.getTransaction().commit();
-    }
-
     public List<Boot> findBootByEigenaar(long eigenaarId){
         entityManager.getTransaction().begin();
 
@@ -63,6 +53,7 @@ public class BootDaoImp implements BootDao {
         return bootList;
     }
 
+    @Override
     public List<Boot> findBootByKeyword(long eigenaarId, String keyword){
         entityManager.getTransaction().begin();
 
@@ -75,5 +66,27 @@ public class BootDaoImp implements BootDao {
 
         entityManager.getTransaction().commit();
         return bootList;
+    }
+
+    public List<Type> getAllTypes(){
+        entityManager.getTransaction().begin();
+
+        String type_jpql = "select t from Type t";
+        TypedQuery<Type> query = entityManager.createQuery(type_jpql, Type.class);
+        List<Type> typeList = query.getResultList();
+
+        entityManager.getTransaction().commit();
+        return typeList;
+    }
+
+    public List<Eigenschap> getAllEigenschsppen(){
+        entityManager.getTransaction().begin();
+
+        String eigenchap_jpql = "select e from Eigenschap e";
+        TypedQuery<Eigenschap> query = entityManager.createQuery(eigenchap_jpql, Eigenschap.class);
+        List<Eigenschap> eigenschapList = query.getResultList();
+
+        entityManager.getTransaction().commit();
+        return eigenschapList;
     }
 }
