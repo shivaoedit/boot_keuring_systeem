@@ -70,9 +70,25 @@ class ControleurMenuService extends MenuService{
                     System.out.println(++index + ". " + keuring);
                 }
 
+                while(true){
+                    System.out.println("-------------------------------- Kies een nummer van een keuring om de keuring uit te voeren --------------------------------");
+                    String actie = scanner.next();
+                    int gekozenOptie = validateInput(actie);
+
+                    if (gekozenOptie == 0) {
+                        break;
+                    } else{
+                        if(gekozenOptie > index || gekozenOptie < 0) {
+                            System.out.println("Ongeldige keuze");
+                        }else{
+                            keuringUitvoeren(keuringList.get(gekozenOptie - 1));
+                        }
+                    }
+                }
                 break;
             case 3:
                 System.out.println("3");
+                break;
             default :
                 System.out.println("Ongeldige keuze");
                 break;
@@ -81,7 +97,7 @@ class ControleurMenuService extends MenuService{
 
     private static void keuringUitvoeren(Keuring keuring){
         while(true){
-            System.out.println("---------------------- Keurings datum: " + keuring.getKeuringsDatum() + ", Status: " + (keuring.getStatus() == 0 ? "Pending" : "GEKEURD") + " ----------------------");
+            System.out.println("---------------------- Keurings datum: " + keuring.getKeuringsDatum() + ", Status: " + (keuring.getStatus() == 0 ? "Pending" : "Gekeurd") + " ----------------------");
             System.out.println("Huidige boot gegevens van " + keuring.getBoot().getShipCode() + " " + keuring.getBoot().getBootNaam());
             System.out.println(keuring.getBoot().detailsForKeuring());
             System.out.println(" ");
@@ -106,7 +122,24 @@ class ControleurMenuService extends MenuService{
             }else if(gekozenOptie == 9){
                 keuringenDao.updateKeuring(keuring);
                 break;
-            }else if(gekozenOptie < 0){
+            }else if(gekozenOptie == 8){
+                while(true){
+                    System.out.println("0. Terug");
+                    System.out.println("1. Eigenschap toevoegen");
+                    System.out.println("2. Eigenschap verwijderen");
+
+                    String eigenschapOption = scanner.next();
+                    int eigenschapOptie = validateInput(eigenschapOption);
+
+                    if(eigenschapOptie == 0){ break; }
+
+                    eigenschapBeheer(eigenschapOptie, keuring.getBoot());
+                    System.out.println("Eigenschap toegevoegd.");
+                }
+
+                continue;
+            }else if(gekozenOptie < 0 || gekozenOptie > 9){
+                System.out.println("Ongeldige keuze.");
                 continue;
             }
 
@@ -138,21 +171,6 @@ class ControleurMenuService extends MenuService{
                 break;
             case 7:
                 keuring.getBoot().setBrandstof(nieuweWaarde);
-                break;
-            case 8:
-                while(true){
-                    System.out.println("0. Terug");
-                    System.out.println("1. Eigenschap toevoegen");
-                    System.out.println("2. Eigenschap verwijderen");
-
-                    String eigenschapOption = scanner.next();
-                    int eigenschapOptie = validateInput(eigenschapOption);
-
-                    if(eigenschapOptie == 0){ break; }
-
-                    eigenschapBeheer(eigenschapOptie, keuring.getBoot());
-                }
-
                 break;
             default:
                 System.out.println("Ongeldige keuze");
@@ -191,8 +209,10 @@ class ControleurMenuService extends MenuService{
                         }
                     }
                 }
+
+                break;
             case 2:
-                System.out.println("-------------------- Eigenschap toevoegen (Bestaande eigenschappen worden niet getoond) --------------------");
+                System.out.println("-------------------- Eigenschap verwijderen (Bestaande eigenschappen worden niet getoond) --------------------");
                 System.out.println("0. Terug");
                 eigenschapList = boot.getEigenschapList();
 
@@ -215,8 +235,11 @@ class ControleurMenuService extends MenuService{
                         }
                     }
                 }
+
+                break;
             default:
                 System.out.println("Ongeldige keuze");
+                break;
         }
     }
 }

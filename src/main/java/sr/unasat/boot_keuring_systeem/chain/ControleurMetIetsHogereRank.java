@@ -14,15 +14,18 @@ public class ControleurMetIetsHogereRank implements ControleurChain{
     }
 
     @Override
-    public void assignKeuringToControleur(Boot boot){
+    public Controleur assignKeuringToControleur(Boot boot){
         long typeId = boot.getType().getId();
         List<Controleur> controleurList = ControleurDaoImp.getAvailableControleur(2);
-        if( (typeId == 5 || typeId == 6) && !controleurList.isEmpty() ){
+        if( typeId <= 6 && !controleurList.isEmpty() ){
             Controleur controleur = controleurList.get(0);
-            controleur.getKeuringList().add( new Keuring(boot, 0) );
+            controleur.getKeuringList().add( new Keuring(controleur, boot, 0) );
+            controleurDaoImp.updateControleur(controleur);
             ControleurDaoImp.assignKeuringToControleur(controleur, boot);
+
+            return controleur;
         }else{
-            this.controleurChain.assignKeuringToControleur(boot);
+            return this.controleurChain.assignKeuringToControleur(boot);
         }
     }
 }

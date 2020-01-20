@@ -85,7 +85,7 @@ public class ControleurDaoImp implements ControleurDao {
         EntityManager em = JPAConfiguration.getEntityManager();
         em.getTransaction().begin();
 
-        String jpql = "SELECT c FROM Controleur c WHERE c.rank.id = :rankId ORDER BY bootList ASC";
+        String jpql = "SELECT c FROM Controleur c WHERE c.rank.id = :rankId ORDER BY size(keuringList) ASC";
         Query query = em.createQuery(jpql, Controleur.class);
         query.setParameter("rankId", rankId);
 

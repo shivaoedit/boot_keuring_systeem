@@ -14,12 +14,16 @@ public class ControleurMetHoogsteRank implements ControleurChain{
     }
 
     @Override
-    public void assignKeuringToControleur(Boot boot){
+    public Controleur assignKeuringToControleur(Boot boot){
         List<Controleur> controleurList = ControleurDaoImp.getAvailableControleur(3);
         if(!controleurList.isEmpty()) {
             Controleur controleur = controleurList.get(0);
-            controleur.getKeuringList().add( new Keuring(boot, 0) );
+            controleur.getKeuringList().add( new Keuring(controleur, boot, 0) );
+            controleurDaoImp.updateControleur(controleur);
             ControleurDaoImp.assignKeuringToControleur(controleur, boot);
+            return controleur;
         }
+
+        return null;
     }
 }

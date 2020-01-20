@@ -12,7 +12,7 @@ public class Keuring {
 
     private LocalDate keuringsDatum;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name="controleur_id", nullable=false)
     private Controleur controleur;
 
@@ -24,9 +24,10 @@ public class Keuring {
 
     public Keuring() {}
 
-    public Keuring(Boot boot, int status) {
+    public Keuring(Controleur controleur, Boot boot, int status) {
         this.keuringsDatum = LocalDate.now().plusDays(1);
         this.boot = boot;
+        this.controleur = controleur;
         this.status = status;
     }
 
@@ -77,7 +78,7 @@ public class Keuring {
                 ", keuringsDatum='" + keuringsDatum + '\'' +
                 ", controleur='" + controleur.getVoorNaam() + " " + controleur.getNaam() + '\'' +
                 ", boot=Boot{shipCode=" + boot.getShipCode() + ", bootNaam=" + boot.getBootNaam() + '\'' +
-                ", status=" + status +
+                ", status=" + (status == 0 ? "Pending" : "Gekeurd") +
             '}';
     }
 }

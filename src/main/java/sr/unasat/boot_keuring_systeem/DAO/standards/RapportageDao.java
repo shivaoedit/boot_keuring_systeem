@@ -7,5 +7,5 @@ import java.util.List;
 public interface RapportageDao {
     List<Keuring> aantalKeuringenPerPeriode(LocalDate startDatum, LocalDate endDatum);
     Controleur meesteKeuringenControleur(LocalDate startDatum, LocalDate endDatum);
-    List<List<Keuring>> uitEenZettingPerKwartaal(String jaar);
+    List<List<Keuring>> uitEenZettingPerKwartaal(int jaar);
 }

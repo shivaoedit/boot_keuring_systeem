@@ -54,7 +54,7 @@ public class KeuringenProxy implements Keuringen{
     private List<Keuring> getAllProxyKeuringen(){
         entityManager.getTransaction().begin();
 
-        String keuring_jpql = "select k from Keuring k ORDER BY controleur WHERE k.controleur.id = :id;";
+        String keuring_jpql = "select k from Keuring k WHERE k.controleur.id = :id";
         TypedQuery<Keuring> query = entityManager.createQuery(keuring_jpql, Keuring.class);
         query.setParameter("id", LoginService.getUserId());
         List<Keuring> keuringList = query.getResultList();
@@ -66,7 +66,7 @@ public class KeuringenProxy implements Keuringen{
     private List<Keuring> findProxyKeuring(String keyword){
         entityManager.getTransaction().begin();
 
-        String jpql = "SELECT k FROM Keuring k WHERE k.controleur.id = : id AND (WHERE k.boot.bootNaam LIKE :naam OR k.boot.shipCode LIKE :shipCode)";
+        String jpql = "SELECT k FROM Keuring k WHERE k.controleur.id = : id AND (k.boot.bootNaam LIKE :naam OR k.boot.shipCode LIKE :shipCode)";
         Query query = entityManager.createQuery(jpql, Keuring.class);
         query.setParameter("shipCode", "%" + keyword + "%");
         query.setParameter("naam", "%" + keyword + "%");

@@ -24,7 +24,7 @@ public class Controleur {
     @JoinColumn(name="rank_id", nullable=false)
     private Rank rank;
 
-    @OneToMany(mappedBy="controleur")
+    @OneToMany(mappedBy="controleur", cascade = CascadeType.PERSIST)
     @Column
     private List<Keuring> keuringList;
 

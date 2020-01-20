@@ -28,7 +28,7 @@ public class KeuringenImp implements Keuringen{
 
         String jpql = "SELECT k FROM Keuring k WHERE k.boot.bootNaam LIKE :naam OR k.boot.shipCode LIKE :shipCode";
         Query query = entityManager.createQuery(jpql, Keuring.class);
-        query.setParameter("voornaam", "%" + keyword + "%");
+        query.setParameter("naam", "%" + keyword + "%");
         query.setParameter("shipCode", "%" + keyword + "%");
         List<Keuring> keuringList = query.getResultList();
 

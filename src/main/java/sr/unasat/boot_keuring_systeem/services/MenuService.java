@@ -31,4 +31,20 @@ abstract class MenuService {
             return -1;
         }
     }
+
+    static boolean validateDate(String input){
+        if(input.length() != 10){
+            return false;
+        }
+
+        String yearString = input.substring(0, 4);
+        String monthString = input.substring(5, 7);
+        String dayString = input.substring(8, 10);
+
+        int year =validateInput(yearString);
+        int month =validateInput(monthString);
+        int day =validateInput(dayString);
+
+        return !(year < 1970 || month > 12 || month < 0 || day > 31 || day < 0);
+    }
 }

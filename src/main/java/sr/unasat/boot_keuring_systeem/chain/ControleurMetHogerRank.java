@@ -14,15 +14,18 @@ public class ControleurMetHogerRank implements ControleurChain{
     }
 
     @Override
-    public void assignKeuringToControleur(Boot boot){
+    public Controleur assignKeuringToControleur(Boot boot){
         long typeId = boot.getType().getId();
         List<Controleur> controleurList = ControleurDaoImp.getAvailableControleur(1);
-        if( (typeId == 3 || typeId == 4) && !controleurList.isEmpty() ){
+        if( typeId <= 4 && !controleurList.isEmpty() ){
             Controleur controleur = controleurList.get(0);
-            controleur.getKeuringList().add( new Keuring(boot, 0) );
+            controleur.getKeuringList().add( new Keuring(controleur, boot, 0) );
+            controleurDaoImp.updateControleur(controleur);
             ControleurDaoImp.assignKeuringToControleur(controleur, boot);
+
+            return controleur;
         }else{
-            this.controleurChain.assignKeuringToControleur(boot);
+            return this.controleurChain.assignKeuringToControleur(boot);
         }
     }
 }

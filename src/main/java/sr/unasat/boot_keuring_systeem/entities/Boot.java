@@ -198,7 +198,7 @@ public class Boot {
     public String toString() {
         String keuring = null;
 
-        if(!keuringBewijslist.isEmpty()) {
+        if(keuringBewijslist != null && !keuringBewijslist.isEmpty()) {
             keuring = keuringBewijslist.get(keuringBewijslist.size() - 1).toString();
         }
 

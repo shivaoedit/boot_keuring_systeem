@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 class AdminMenuService extends MenuService{
+    private static boolean eigenaarDeleted = false;
+
     static void adminMenu(){
         while(true){
             System.out.println("-------------------------------- Menu --------------------------------");
@@ -98,7 +100,7 @@ class AdminMenuService extends MenuService{
                 String voornaam = scanner.next();
                 System.out.println("---------------------- Voer de gebruikersnaam van de controleur in... -----------------------");
                 String gebruikersnaam = scanner.next();
-                System.out.println("---------------------- Voer het tijdelijke wachtwoord van de controleur in... -----------------------");
+                System.out.println("---------------------- Voer het wachtwoord van de controleur in... -----------------------");
                 String wachtwoord = scanner.next();
                 System.out.println("---------------------- Kies een rank voor de controleur... -----------------------");
                 Rank gekozenRank = null;
@@ -187,7 +189,8 @@ class AdminMenuService extends MenuService{
                 System.out.println("Controleur bijgewerkt.");
                 controleurDaoImp.updateControleur(controleur);
                 break;
-            }else if(gekozenOptie < 0){
+            }else if(gekozenOptie < 0 || gekozenOptie > 5){
+                System.out.println("Ongeldige keuze.");
                 continue;
             }
 
@@ -259,8 +262,16 @@ class AdminMenuService extends MenuService{
                 String naam = scanner.next();
                 System.out.println("---------------------- Voer de voornaam van de eigenaar in... -----------------------");
                 String voornaam = scanner.next();
-                System.out.println("---------------------- Voer de geboorteDatum van de eigenaar in... -----------------------");
-                String geboorteDatum = scanner.next();
+
+                System.out.println("---------------------- Voer de geboorteDatum van de eigenaar in (yyyy-mm-dd)... -----------------------");
+                String geboorteDatum;
+                while(true){
+                    geboorteDatum = scanner.next();
+
+                    if(validateDate(geboorteDatum)){ break; }
+                    System.out.println("Datum is ongeldig.");
+                }
+
                 System.out.println("---------------------- Voer het paspoortnummer van de eigenaar in... -----------------------");
                 String paspoortNummer = scanner.next();
                 System.out.println("---------------------- Voer de landcode in... -----------------------");
@@ -319,6 +330,11 @@ class AdminMenuService extends MenuService{
             }
 
             eigenaarActiesBeheer(gekozenOptie, eigenaar);
+
+            if(eigenaarDeleted){
+                eigenaarDeleted = false;
+                break;
+            }
         }
     }
 
@@ -350,7 +366,8 @@ class AdminMenuService extends MenuService{
                         System.out.println("Eigenaar bijgewerkt.");
                         eigenaarDaoImp.updateEigenaar(eigenaar);
                         break;
-                    }else if(gekozenOptie < 0){
+                    }else if(gekozenOptie < 0 || gekozenOptie > 6){
+                        System.out.println("Ongeldige keuze.");
                         continue;
                     }
 
@@ -360,9 +377,10 @@ class AdminMenuService extends MenuService{
                 }
                 break;
             case 3:
-                if(eigenaar.getBootlist().isEmpty()){
+                if(eigenaar.getBootlist() == null || eigenaar.getBootlist().isEmpty()){
                     eigenaarDaoImp.deleteEigenaar(eigenaar);
                     System.out.println(eigenaar.getNaam() + " " + eigenaar.getVoorNaam() + " is verwijderd.");
+                    eigenaarDeleted = true;
                 }else{
                     System.out.println("Niet toegestaan om deze eigenaar te verwijderen.");
                 }
@@ -381,6 +399,11 @@ class AdminMenuService extends MenuService{
                 eigenaar.setVoorNaam(nieuweWaarde);
                 break;
             case 3:
+                while(!validateDate(nieuweWaarde)){
+                    System.out.println("Datum is ongeldig.");
+                    nieuweWaarde = scanner.next();
+                }
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 eigenaar.setGeboorteDatum(LocalDate.parse(nieuweWaarde, formatter));
                 break;
@@ -441,10 +464,11 @@ class AdminMenuService extends MenuService{
                     System.out.println(++index + ". " + type);
                 }
 
+                int typeOption;
                 while(true){
                     System.out.println("---------------------- Kies de type van de boot... -----------------------");
                     String typeNaam = scanner.next();
-                    int typeOption = validateInput(typeNaam);
+                    typeOption = validateInput(typeNaam);
 
                     if(typeOption > 0 && typeOption <= index){
                         break;
@@ -453,7 +477,7 @@ class AdminMenuService extends MenuService{
                     System.out.println("Ongeldige keuze");
                 }
 
-                Type type = TypeFactory.getType( typeList.get((index - 1)).getType() );
+                Type type = TypeFactory.getType( typeList.get((typeOption - 1)).getType() );
                 System.out.println("---------------------- Voer de naam van de boot in... -----------------------");
                 String naam = scanner.next();
                 System.out.println("---------------------- Voer het bouwjaar van de boot in... -----------------------");
@@ -518,7 +542,8 @@ class AdminMenuService extends MenuService{
     private static void bootActiesBeheer(int option, Boot boot) {
         switch (option){
             case 1:
-                ChainConfiguration.getControleurChain().assignKeuringToControleur(boot);
+                Controleur controleur = ChainConfiguration.getControleurChain().assignKeuringToControleur(boot);
+                System.out.println("Keuring toegewezen aan " + controleur.getNaam() + " " + controleur.getVoorNaam());
                 break;
             case 2:
                 while(true){
@@ -541,7 +566,8 @@ class AdminMenuService extends MenuService{
                         System.out.println("Boot bijgewerkt.");
                         bootDaoImp.updateBoot(boot);
                         break;
-                    }else if(gekozenOptie < 0){
+                    }else if(gekozenOptie < 0 || gekozenOptie > 4){
+                        System.out.println("Ongeldige keuze");
                         continue;
                     }
 
@@ -655,6 +681,15 @@ class AdminMenuService extends MenuService{
                     System.out.println(++index + ". " + keuring);
                 }
 
+                while(true){
+                    System.out.println("---------------------- Kies 0 (nul) om terug te gaan naar het vorige scherm... -----------------------");
+                    String terugOptie = scanner.next();
+                    int terug = validateInput(terugOptie);
+
+                    if(terug == 0){ break; }
+                    System.out.println("Ongeldige keuze");
+                }
+
                 break;
             default :
                 System.out.println("Ongeldige keuze");
@@ -689,7 +724,8 @@ class AdminMenuService extends MenuService{
             }else if(gekozenOptie == 9){
                 keuringenDao.updateKeuring(keuring);
                 break;
-            }else if(gekozenOptie < 0){
+            }else if(gekozenOptie < 0 || gekozenOptie > 9){
+                System.out.println("Ongeldige keuze");
                 continue;
             }
 
@@ -811,7 +847,7 @@ class AdminMenuService extends MenuService{
             System.out.println("0. Terug");
             System.out.println("1. Uiteenzetting per boot type aantal per kwartaal geregistreerd");
             System.out.println("2. Controleur met meeste keuringen in een periode");
-            System.out.println("3. Aantal keurinen in een periode");
+            System.out.println("3. Aantal keuringen in een periode");
             System.out.println("Kies 1 van de boven staande handelingen door het nummer aan te geven");
 
             String option = scanner.next();
@@ -830,7 +866,19 @@ class AdminMenuService extends MenuService{
 
         switch (option){
             case 1:
-                String jaar = scanner.next();
+                System.out.println("---------------------------- Voer een jaartal in (yyyy) ----------------------------");
+                int jaar;
+                while(true) {
+                    String jaarInput = scanner.next();
+                    jaar = validateInput(jaarInput);
+
+                    if(jaar >= 1970){
+                        break;
+                    }
+
+                    System.out.println("Jaartal is ongeldig.");
+                }
+
                 List<List<Keuring>> kwartaalList = rapportageDaoImp.uitEenZettingPerKwartaal(jaar);
                 int a,b,c,d,e,f,g,h;
                 a=b=c=d=e=f=g=h=0;
@@ -858,27 +906,63 @@ class AdminMenuService extends MenuService{
                     }
 
                     System.out.println("Aantal keuringen voor kwartaal " + kwartaal++ + ": " );
-                    System.out.println("Waterscooter: " + a);
-                    System.out.println("Passagiersboot: " + b);
-                    System.out.println("Zeevissersvaartuig: " + c);
-                    System.out.println("Veerboot: " + d);
-                    System.out.println("Jacht: " + e);
-                    System.out.println("Zeilboot: " + f);
-                    System.out.println("Cruise: " + g);
-                    System.out.println("Schip: " + h);
+                    System.out.println("\t Waterscooter: " + a);
+                    System.out.println("\t Passagiersboot: " + b);
+                    System.out.println("\t Zeevissersvaartuig: " + c);
+                    System.out.println("\t Veerboot: " + d);
+                    System.out.println("\t Jacht: " + e);
+                    System.out.println("\t Zeilboot: " + f);
+                    System.out.println("\t Cruise: " + g);
+                    System.out.println("\t Schip: " + h);
                 }
                 break;
             case 2:
-                String start = scanner.next();
-                String end = scanner.next();
+                System.out.println("---------------------------- Voer de start datum in (yyyy-mm-dd) ----------------------------");
+                String start;
+                while(true){
+                    start = scanner.next();
+
+                    if(validateDate(start)){ break; }
+                    System.out.println("Datum is ongeldig.");
+                }
+
+                System.out.println("---------------------------- Voer de eind datum in (yyyy-mm-dd) ----------------------------");
+                String end;
+                while(true){
+                    end = scanner.next();
+
+                    if(validateDate(end)){ break; }
+                    System.out.println("Datum is ongeldig.");
+                }
 
                 Controleur controleur = rapportageDaoImp.meesteKeuringenControleur(LocalDate.parse(start, formatter), LocalDate.parse(end, formatter));
-                System.out.println(controleur.getNaam() + " " + controleur.getVoorNaam() + ", Aantal keuringen: " + controleur.getKeuringList().size());
+
+                System.out.println("------------- Controleur Met Meeste Keuringen van " + start + " " + end + " -------------");
+                if(controleur != null) {
+                    System.out.println(controleur.getNaam() + " " + controleur.getVoorNaam() + ", Aantal keuringen: " + controleur.getKeuringList().size());
+                }
+
                 break;
             case 3:
-                String startDate = scanner.next();
-                String endDate = scanner.next();
+                System.out.println("---------------------------- Voer de start datum in (yyyy-mm-dd) ----------------------------");
+                String startDate;
+                while(true){
+                    startDate = scanner.next();
 
+                    if(validateDate(startDate)){ break; }
+                    System.out.println("Datum is ongeldig.");
+                }
+
+                System.out.println("---------------------------- Voer de eind datum in (yyyy-mm-dd) ----------------------------");
+                String endDate;
+                while(true){
+                    endDate = scanner.next();
+
+                    if(validateDate(endDate)){ break; }
+                    System.out.println("Datum is ongeldig.");
+                }
+
+                System.out.println("------------- Aantal Keuringen van " + startDate + " " + endDate + " -------------");
                 List<Keuring> keuringList = rapportageDaoImp.aantalKeuringenPerPeriode(LocalDate.parse(startDate, formatter), LocalDate.parse(endDate, formatter));
                 System.out.println("Aantal keuringen: " + keuringList.size());
                 break;
