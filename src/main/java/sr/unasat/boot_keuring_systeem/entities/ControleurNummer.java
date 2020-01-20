@@ -8,8 +8,13 @@ public class ControleurNummer {
     @Id
     @GeneratedValue()
     private Long id;
-
     private String controleurNummer;
+
+    public ControleurNummer(){}
+
+    public ControleurNummer(String controleurNummer) {
+        this.controleurNummer = controleurNummer;
+    }
 
     public Long getId() {
         return id;
@@ -23,7 +28,14 @@ public class ControleurNummer {
         return controleurNummer;
     }
 
-    public void setControleurNummer(String controleurNummerl) {
-        this.controleurNummer = controleurNummerl;
+    public void setControleurNummer(String controleurNummer) {
+        this.controleurNummer = controleurNummer;
+    }
+
+    @Override
+    public String toString() {
+        return "ControleurNummer{" +
+                "controleurNummer='" + controleurNummer + '\'' +
+            '}';
     }
 }
