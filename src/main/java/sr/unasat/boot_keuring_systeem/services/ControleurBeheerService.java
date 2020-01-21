@@ -55,6 +55,7 @@ class ControleurBeheerService extends MenuService{
                 Rank gekozenRank = null;
 
                 while(true) {
+                    index = 0;
                     List<Rank> rankList = controleurDaoImp.getAllRanken();
                     for (Rank rank : rankList) {
                         System.out.println(++index + ". " + rank);
@@ -67,7 +68,6 @@ class ControleurBeheerService extends MenuService{
                         gekozenRank = rankList.get( gekozenOptie - 1 );
                         break;
                     }catch(RuntimeException e){
-                        index = 0;
                         System.out.println("Ongeldige keuze");
                     }
                 }
@@ -91,14 +91,15 @@ class ControleurBeheerService extends MenuService{
     }
 
     private static void controleurDisplay(List<Controleur> controleurList){
-        int index = 0;
+        int index;
 
         while(true){
-            System.out.println("-------------------------------- Kies een nummer van een controleur om gegevens bij te werken --------------------------------");
+            index = 0;
             System.out.println("0. Terug");
             for (Controleur controleur : controleurList) {
                 System.out.println(++index + ". " + controleur);
             }
+            System.out.println("-------------------------------- Kies een nummer van een controleur om gegevens bij te werken --------------------------------");
 
             String option = scanner.next();
             int gekozenOptie = validateInput(option);
@@ -107,7 +108,6 @@ class ControleurBeheerService extends MenuService{
                 break;
             } else{
                 if(gekozenOptie > index || gekozenOptie < 0) {
-                    index = 0;
                     System.out.println("Ongeldige keuze");
                 }else{
                     controleurBijwerken(controleurList.get(gekozenOptie - 1));

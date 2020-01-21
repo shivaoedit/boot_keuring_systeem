@@ -72,14 +72,15 @@ class EigenaarBeheerService extends MenuService{
     }
 
     private static void eigenaarBoten(List<Eigenaar> eigenaarList){
-        int index = 0;
+        int index;
 
         while(true){
-            System.out.println("-------------------------------- Kies een nummer van een eigenaar voor meer acties --------------------------------");
+            index = 0;
             System.out.println("0. Terug");
             for(Eigenaar eigenaar : eigenaarList){
                 System.out.println(++index + ". " + eigenaar );
             }
+            System.out.println("-------------------------------- Kies een nummer van een eigenaar voor meer acties --------------------------------");
 
             String option = scanner.next();
             int gekozenOptie = validateInput(option);
@@ -88,7 +89,6 @@ class EigenaarBeheerService extends MenuService{
                 break;
             } else{
                 if(gekozenOptie > index || gekozenOptie < 0) {
-                    index = 0;
                     System.out.println("Ongeldige keuze");
                 }else{
                     eigenaarActies(eigenaarList.get(gekozenOptie - 1));

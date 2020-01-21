@@ -40,7 +40,7 @@ public class LoginService extends MenuService {
 
         while(true) {
             if(totalAttempts == 5){
-                System.out.println("Too many login invalid attempts.");
+                System.out.println("Too many invalid login attempts.");
                 break;
             }
 

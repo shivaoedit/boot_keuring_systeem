@@ -47,10 +47,10 @@ class BootBeheer extends MenuService{
                 int index = 0;
                 int typeOption;
                 while(true){
-                    System.out.println("---------------------- Kies de type van de boot... -----------------------");
                     for (Type type : typeList) {
                         System.out.println(++index + ". " + type);
                     }
+                    System.out.println("---------------------- Kies de type van de boot... -----------------------");
 
                     String typeNaam = scanner.next();
                     typeOption = validateInput(typeNaam);
@@ -81,14 +81,15 @@ class BootBeheer extends MenuService{
     }
 
     private static void bootDisplay(List<Boot> bootList){
-        int index = 0;
+        int index;
 
         while(true){
-            System.out.println("-------------------------------- Kies een nummer van een boot voor meer acties --------------------------------");
+            index = 0;
             System.out.println("0. Terug");
             for(Boot boot : bootList){
                 System.out.println(++index + ". " + boot );
             }
+            System.out.println("-------------------------------- Kies een nummer van een boot voor meer acties --------------------------------");
 
             String option = scanner.next();
             int gekozenOptie = validateInput(option);
@@ -97,7 +98,6 @@ class BootBeheer extends MenuService{
                 break;
             } else{
                 if(gekozenOptie > index || gekozenOptie < 0) {
-                    index = 0;
                     System.out.println("Ongeldige keuze");
                 }else{
                     bootActies(bootList.get(gekozenOptie - 1));

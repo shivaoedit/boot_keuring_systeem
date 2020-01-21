@@ -1,6 +1,8 @@
 package sr.unasat.boot_keuring_systeem.services;
 
 import sr.unasat.boot_keuring_systeem.entities.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 class KeuringBeheer extends MenuService{
@@ -14,13 +16,14 @@ class KeuringBeheer extends MenuService{
                 keuringList = keuringenDao.getAllKeuringen();
 
                 while(true){
-                    System.out.println("-------------------------------- Kies een nummer van een keuring om de keuring uit te voeren --------------------------------");
+                    index = 0;
                     System.out.println("0. Terug");
                     for (Keuring keuring : keuringList) {
                         if(keuring.getControleur().getId().equals(LoginService.getUserId())) {
                             System.out.println(++index + ". " + keuring);
                         }
                     }
+                    System.out.println("-------------------------------- Kies een nummer van een keuring om de keuring uit te voeren --------------------------------");
 
                     String actie = scanner.next();
                     int gekozenOptie = validateInput(actie);
@@ -29,10 +32,15 @@ class KeuringBeheer extends MenuService{
                         break;
                     } else{
                         if(gekozenOptie > index || gekozenOptie < 0) {
-                            index = 0;
                             System.out.println("Ongeldige keuze");
                         }else{
-                            keuringUitvoeren(keuringList.get(gekozenOptie - 1));
+                            Keuring keuring = keuringList.get(gekozenOptie - 1);
+
+                            if (keuring.getStatus() == 0){
+                                keuringUitvoeren(keuring);
+                            }else{
+                                System.out.println("Keuring al voltooid. Niet toegestaan om keuring nogmaals uit te voeren.");
+                            }
                         }
                     }
                 }
@@ -43,18 +51,18 @@ class KeuringBeheer extends MenuService{
                 keuringList = keuringenDao.getAllKeuringen();
 
                 while(true){
-                    System.out.println("---------------------- Kies 0 (nul) om terug te gaan naar het vorige scherm... -----------------------");
+                    index = 0;
                     System.out.println("0. Terug");
                     for (Keuring keuring : keuringList) {
                         System.out.println(++index + ". " + keuring);
                     }
+                    System.out.println("---------------------- Kies 0 (nul) om terug te gaan naar het vorige scherm... -----------------------");
 
                     String terugOptie = scanner.next();
                     int terug = validateInput(terugOptie);
 
                     if(terug == 0){ break; }
                     System.out.println("Ongeldige keuze");
-                    index = 0;
                 }
 
                 break;
@@ -64,12 +72,13 @@ class KeuringBeheer extends MenuService{
                 keuringList = keuringenDao.findKeuring(keyword);
 
                 while(true){
+                    index = 0;
                     if(LoginService.getUserRank() == 3) {
-                        System.out.println("---------------------- Kies 0 (nul) om terug te gaan naar het vorige scherm... -----------------------");
                         System.out.println("0. Terug");
                         for (Keuring keuring : keuringList) {
                             System.out.println(++index + ". " + keuring);
                         }
+                        System.out.println("---------------------- Kies 0 (nul) om terug te gaan naar het vorige scherm... -----------------------");
 
                         String terugOptie = scanner.next();
                         int terug = validateInput(terugOptie);
@@ -79,11 +88,11 @@ class KeuringBeheer extends MenuService{
                         }
                         System.out.println("Ongeldige keuze");
                     }else{
-                        System.out.println("-------------------------------- Kies een nummer van een keuring om de keuring uit te voeren --------------------------------");
                         System.out.println("0. Terug");
                         for (Keuring keuring : keuringList) {
                             System.out.println(++index + ". " + keuring);
                         }
+                        System.out.println("-------------------------------- Kies een nummer van een keuring om de keuring uit te voeren --------------------------------");
 
                         String actie = scanner.next();
                         int gekozenOptie = validateInput(actie);
@@ -92,7 +101,6 @@ class KeuringBeheer extends MenuService{
                             break;
                         } else {
                             if (gekozenOptie > index || gekozenOptie < 0) {
-                                index = 0;
                                 System.out.println("Ongeldige keuze");
                             } else {
                                 Keuring keuring = keuringList.get(gekozenOptie - 1);
@@ -100,7 +108,7 @@ class KeuringBeheer extends MenuService{
                                 if (keuring.getStatus() == 0){
                                     keuringUitvoeren(keuring);
                                 }else{
-                                    System.out.println("Keuring al voltooid. Niet oegestaan om keuring nogmaals uit te voeren.");
+                                    System.out.println("Keuring al voltooid. Niet toegestaan om keuring nogmaals uit te voeren.");
                                 }
                             }
                         }
@@ -144,6 +152,21 @@ class KeuringBeheer extends MenuService{
             }else if(gekozenOptie < 0 || gekozenOptie > 9){
                 System.out.println("Ongeldige keuze");
                 continue;
+            }else if(gekozenOptie == 8){
+                while(true){
+                    System.out.println("0. Terug");
+                    System.out.println("1. Eigenschap toevoegen");
+                    System.out.println("2. Eigenschap verwijderen");
+
+                    String eigenschapOption = scanner.next();
+                    int eigenschapOptie = validateInput(eigenschapOption);
+
+                    if(eigenschapOptie == 0){ break; }
+
+                    eigenschapBeheer(eigenschapOptie, keuring.getBoot());
+                }
+
+                break;
             }
 
             System.out.println("Voer de nieuwe waarde in: ");
@@ -175,21 +198,6 @@ class KeuringBeheer extends MenuService{
             case 7:
                 keuring.getBoot().setBrandstof(nieuweWaarde);
                 break;
-            case 8:
-                while(true){
-                    System.out.println("0. Terug");
-                    System.out.println("1. Eigenschap toevoegen");
-                    System.out.println("2. Eigenschap verwijderen");
-
-                    String eigenschapOption = scanner.next();
-                    int eigenschapOptie = validateInput(eigenschapOption);
-
-                    if(eigenschapOptie == 0){ break; }
-
-                    eigenschapBeheer(eigenschapOptie, keuring.getBoot());
-                }
-
-                break;
             default:
                 System.out.println("Ongeldige keuze");
                 break;
@@ -211,23 +219,16 @@ class KeuringBeheer extends MenuService{
     }
 
     private static void addOrRemoveEigenschappen(int addOrRemove, Boot boot, List<Eigenschap> eigenschapList){
-        int index = 0;
+        int index;
 
         System.out.println("-------------------- Eigenschap " + (addOrRemove == 0 ? "toevoegen" : "verwijderen") + " --------------------");
-        System.out.println("0. Terug");
-        eigenschapList = bootDaoImp.getAllEigenschsppen();
-
         while(true){
-            System.out.println("-------------------------------- Kies een nummer van een eigenschap om deze " + (addOrRemove == 0 ? "toe te voegen" : "te verwijderen") + " --------------------------------");
+            index = 0;
+            System.out.println("0. Terug");
             for(Eigenschap eigenschap : eigenschapList){
-                if(addOrRemove == 0) {
-                    if (boot.getEigenschapList().contains(eigenschap)) {
-                        continue;
-                    }
-                }
-
                 System.out.println(++index + ". " + eigenschap);
             }
+            System.out.println("-------------------------------- Kies een nummer van een eigenschap om deze " + (addOrRemove == 0 ? "toe te voegen" : "te verwijderen") + " --------------------------------");
 
             String eigenschapNummer = scanner.next();
             int eigenschapNum = validateInput(eigenschapNummer);
@@ -236,9 +237,10 @@ class KeuringBeheer extends MenuService{
                 break;
             } else{
                 if(eigenschapNum > index || eigenschapNum < 0) {
-                    index = 0;
                     System.out.println("Ongeldige keuze");
                 }else{
+                    if(boot.getEigenschapList() == null){ boot.setEigenschapList( new ArrayList<>() ); }
+
                     if(addOrRemove == 0) {
                         boot.getEigenschapList().add(eigenschapList.get(eigenschapNum - 1));
                         System.out.println("Eigenschap toegevoegd.");
