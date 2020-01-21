@@ -46,6 +46,7 @@ class RapportageBeheerService extends MenuService{
                 a=b=c=d=e=f=g=h=0;
                 int kwartaal = 1;
 
+                System.out.println("Eerste kwartaal = 1 jan t/m 30 apr, tweede kwartaal = 1 mei t/m 30 aug, derde kwartaal = 1 sept t/m 31 dec");
                 for (List<Keuring> keuringList : kwartaalList) {
                     for (Keuring keuring : keuringList) {
                         if(keuring.getBoot().getType().getType().equalsIgnoreCase("waterscooter")){
@@ -99,7 +100,7 @@ class RapportageBeheerService extends MenuService{
 
                 Controleur controleur = rapportageDaoImp.meesteKeuringenControleur(LocalDate.parse(start, formatter), LocalDate.parse(end, formatter));
 
-                System.out.println("------------- Controleur Met Meeste Keuringen van " + start + " " + end + " -------------");
+                System.out.println("------------- Controleur Met Meeste Keuringen van " + start + " t/m " + end + " -------------");
                 if(controleur != null) {
                     System.out.println(controleur.getNaam() + " " + controleur.getVoorNaam() + ", Aantal keuringen: " + controleur.getKeuringList().size());
                 }
@@ -124,7 +125,7 @@ class RapportageBeheerService extends MenuService{
                     System.out.println("Datum is ongeldig.");
                 }
 
-                System.out.println("------------- Aantal Keuringen van " + startDate + " " + endDate + " -------------");
+                System.out.println("------------- Aantal Keuringen van " + startDate + " t/m " + endDate + " -------------");
                 List<Keuring> keuringList = rapportageDaoImp.aantalKeuringenPerPeriode(LocalDate.parse(startDate, formatter), LocalDate.parse(endDate, formatter));
                 System.out.println("Aantal keuringen: " + keuringList.size());
                 break;

@@ -13,21 +13,21 @@ public class TypeFactory {
         Type type = null;
 
         if(typeNaam.equalsIgnoreCase("waterscooter")){
-            type = entityManager.find( Type.class, 1L);
+            type = entityManager.find( Type.class, 0L);
         }else if(typeNaam.equalsIgnoreCase("passagiersboot")){
-            type = entityManager.find( Type.class, 2L);
+            type = entityManager.find( Type.class, 1L);
         }else if(typeNaam.equalsIgnoreCase("zeevissersvaartuig")){
-            type = entityManager.find( Type.class, 3L);
+            type = entityManager.find( Type.class, 2L);
         }else if(typeNaam.equalsIgnoreCase("veerboot")){
-            type = entityManager.find( Type.class, 4L);
+            type = entityManager.find( Type.class, 3L);
         }else if(typeNaam.equalsIgnoreCase("jacht")){
-            type = entityManager.find( Type.class, 5L);
+            type = entityManager.find( Type.class, 4L);
         }else if(typeNaam.equalsIgnoreCase("zeilboot")){
-            type = entityManager.find( Type.class, 6L);
+            type = entityManager.find( Type.class, 5L);
         }else if(typeNaam.equalsIgnoreCase("cruise")){
-            type = entityManager.find( Type.class, 7L);
+            type = entityManager.find( Type.class, 6L);
         }else if(typeNaam.equalsIgnoreCase("schip")){
-            type = entityManager.find( Type.class, 8L);
+            type = entityManager.find( Type.class, 7L);
         }
 
         entityManager.getTransaction().commit();
