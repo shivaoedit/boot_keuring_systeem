@@ -28,16 +28,26 @@ public class ControleurDaoImp implements ControleurDao {
 
     @Override
     public void addControleur(Controleur controleur){
-        entityManager.getTransaction().begin();
-        entityManager.persist(controleur);
-        entityManager.getTransaction().commit();
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.persist(controleur);
+            entityManager.getTransaction().commit();
+            System.out.println("Controleur toegevoegd");
+        }catch(Exception e){
+            System.out.println("Controleur toevoegen mislukt.");
+        }
     }
 
     @Override
     public void updateControleur(Controleur controleur){
-        entityManager.getTransaction().begin();
-        entityManager.persist(controleur);
-        entityManager.getTransaction().commit();
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.persist(controleur);
+            entityManager.getTransaction().commit();
+            System.out.println("Controleur bijgewerkt.");
+        }catch(Exception e){
+            System.out.println("Controleur bijwerken mislukt.");
+        }
     }
 
     @Override

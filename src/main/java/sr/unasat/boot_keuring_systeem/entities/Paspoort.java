@@ -9,6 +9,7 @@ public class Paspoort {
     @GeneratedValue()
     private Long id;
 
+    @Column(unique = true)
     private String paspoortNummer;
     private String landCode;
 

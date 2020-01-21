@@ -10,7 +10,9 @@ public class Controleur {
     @GeneratedValue()
     private Long id;
 
+    @Column(nullable = false)
     private String naam;
+    @Column(nullable = false)
     private String voorNaam;
 
     private String gebruikersNaam;

@@ -31,8 +31,11 @@ public class Boot {
     )
     private List<Eigenschap> eigenschapList;
 
+    @Column(unique = true, nullable = false)
     private String shipCode;
+    @Column(nullable = false)
     private String bootNaam;
+    @Column(nullable = false)
     private String bouwjaar;
 
     private String kleur;

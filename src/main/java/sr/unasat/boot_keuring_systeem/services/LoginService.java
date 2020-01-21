@@ -35,10 +35,15 @@ public class LoginService extends MenuService {
     }
 
     public static void login(){
-        boolean loggedIn = false;
         Controleur controleur;
+        int totalAttempts = 0;
 
-        while(!loggedIn) {
+        while(true) {
+            if(totalAttempts == 5){
+                System.out.println("Too many login invalid attempts.");
+                break;
+            }
+
             System.out.print("Voer uw gebuikersnaam in: ");
             String gebruikersnaam = scanner.next();
 
@@ -57,7 +62,8 @@ public class LoginService extends MenuService {
                     ControleurMenuService.controleurMenu();
                 }
             }else{
-                System.out.println("Uw login credentials zijn incorrect!");
+                totalAttempts++;
+                System.out.println("Uw login credentials zijn incorrect! " + (5 - totalAttempts) + " attempts left!" );
             }
         }
     }

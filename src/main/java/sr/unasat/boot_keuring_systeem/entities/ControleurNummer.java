@@ -8,6 +8,7 @@ public class ControleurNummer {
     @Id
     @GeneratedValue()
     private Long id;
+    @Column(unique = true)
     private String controleurNummer;
 
     public ControleurNummer(){}

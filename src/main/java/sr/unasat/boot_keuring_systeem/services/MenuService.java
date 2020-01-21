@@ -1,16 +1,17 @@
 package sr.unasat.boot_keuring_systeem.services;
 
-import sr.unasat.boot_keuring_systeem.DAO.proxy.Keuringen;
-import sr.unasat.boot_keuring_systeem.DAO.proxy.KeuringenProxy;
+import sr.unasat.boot_keuring_systeem.DAO.proxy.*;
 import sr.unasat.boot_keuring_systeem.DAO.specifications.*;
 import sr.unasat.boot_keuring_systeem.config.JPAConfiguration;
 
 import javax.persistence.EntityManager;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 abstract class MenuService {
     static EntityManager entityManger = JPAConfiguration.getEntityManager();
     static Scanner scanner = new Scanner(System.in);
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     static EigenaarDaoImp eigenaarDaoImp = new EigenaarDaoImp(entityManger);
     static BootDaoImp bootDaoImp = new BootDaoImp(entityManger);
@@ -41,10 +42,10 @@ abstract class MenuService {
         String monthString = input.substring(5, 7);
         String dayString = input.substring(8, 10);
 
-        int year =validateInput(yearString);
-        int month =validateInput(monthString);
-        int day =validateInput(dayString);
+        int year = validateInput(yearString);
+        int month = validateInput(monthString);
+        int day = validateInput(dayString);
 
-        return !(year < 1970 || month > 12 || month < 0 || day > 31 || day < 0);
+        return !(year < 1970 || month > 12 || month <= 0 || day > 31 || day <= 0);
     }
 }

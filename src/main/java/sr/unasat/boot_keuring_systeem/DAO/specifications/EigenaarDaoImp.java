@@ -26,16 +26,26 @@ public class EigenaarDaoImp implements EigenaarDao {
 
     @Override
     public void addEigenaar(Eigenaar eigenaar){
-        entityManager.getTransaction().begin();
-        entityManager.persist(eigenaar);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(eigenaar);
+            entityManager.getTransaction().commit();
+            System.out.println("Eigenaar toegevoegd");
+        }catch(Exception e){
+            System.out.println("Eigenaar toevoegen mislukt.");
+        }
     }
 
     @Override
     public void updateEigenaar(Eigenaar eigenaar){
-        entityManager.getTransaction().begin();
-        entityManager.persist(eigenaar);
-        entityManager.getTransaction().commit();
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.persist(eigenaar);
+            entityManager.getTransaction().commit();
+            System.out.println("Eigenaar bijgewerkt.");
+        }catch(Exception e){
+            System.out.println("Eigenaar bijwerken mislukt.");
+        }
     }
 
     @Override

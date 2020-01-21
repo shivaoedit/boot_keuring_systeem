@@ -11,8 +11,11 @@ public class Eigenaar {
     @GeneratedValue()
     private Long id;
 
+    @Column(nullable = false)
     private String naam;
+    @Column(nullable = false)
     private String voorNaam;
+    @Column(nullable = false)
     private LocalDate geboorteDatum;
 
     @OneToOne(cascade = CascadeType.ALL)

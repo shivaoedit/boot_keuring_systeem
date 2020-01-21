@@ -27,16 +27,26 @@ public class BootDaoImp implements BootDao {
 
     @Override
     public void addBoot(Boot boot){
-        entityManager.getTransaction().begin();
-        entityManager.persist(boot);
-        entityManager.getTransaction().commit();
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.persist(boot);
+            entityManager.getTransaction().commit();
+            System.out.println("Boot toegevoegd");
+        }catch(Exception e){
+            System.out.println("Boot toevoegen mislukt.");
+        }
     }
 
     @Override
     public void updateBoot(Boot boot){
-        entityManager.getTransaction().begin();
-        entityManager.persist(boot);
-        entityManager.getTransaction().commit();
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.persist(boot);
+            entityManager.getTransaction().commit();
+            System.out.println("Boot bijgewerkt.");
+        }catch(Exception e){
+            System.out.println("Boot bijwerken mislukt.");
+        }
     }
 
     @Override
