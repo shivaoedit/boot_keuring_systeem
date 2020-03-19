@@ -27,11 +27,4 @@ public class KeuringController extends AbstractCrudController<Keuring, KeuringDt
     public boolean update(@PathParam("id") Long id, KeuringDto entity){
         return service.update(mapper.toEntity(entity));
     }
-
-    @Path("/find-keuring/{keyword}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<KeuringDto> findKeuring(@PathParam("keyword") String keyword){
-        return mapper.toDtoList(service.findKeuring(keyword));
-    }
 }

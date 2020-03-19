@@ -2,6 +2,7 @@ package sr.unasat.boot_keuring_systeem.services.specifications;
 
 import sr.unasat.boot_keuring_systeem.dao.specifications.proxyImp.KeuringDaoProxy;
 import sr.unasat.boot_keuring_systeem.dao.standards.proxy.KeuringDao;
+import sr.unasat.boot_keuring_systeem.entities.Boot;
 import sr.unasat.boot_keuring_systeem.entities.Keuring;
 import sr.unasat.boot_keuring_systeem.services.standards.KeuringService;
 
@@ -30,7 +31,7 @@ public class KeuringServiceImp extends AbstractCrudService<Keuring> implements K
     }
 
     @Override
-    public List<Keuring> findKeuring(String keyword){
+    public List<Keuring> search(String keyword){
         return dao.findKeuring(keyword);
     }
 }

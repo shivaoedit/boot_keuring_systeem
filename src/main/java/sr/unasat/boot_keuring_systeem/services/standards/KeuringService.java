@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface KeuringService extends CrudService<Keuring> {
     boolean update(Keuring keuring);
-
-    List<Keuring> findKeuring(String keyword);
 }

@@ -5,30 +5,49 @@ function getAll(){
 
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let eigenaren = JSON.parse(this.response);
-            let tableBody = document.getElementById('keuringTable');
-            let bodyContent = '';
-
-            eigenaren.forEach( item => {
-                bodyContent += `<tr>
-                        <td>` +
-                            item.keuringsDatum.dayOfMonth + `-` + item.keuringsDatum.month + `-` + item.keuringsDatum.year +
-                        `</td>
-                        <td>` +
-                            item.controleur.naam + ` ` + item.controleur.voorNaam +
-                        `</td>
-                        <td>` + item.boot.shipCode + `</td>
-                        <td>` +
-                            item.boot.eigenaar.naam + ` ` + item.boot.eigenaar.voorNaam +
-                        `</td>
-                        <td>` + item.status + `</td>
-                    </tr>`;
-            });
-
-            tableBody.innerHTML = bodyContent;
+            fillTable(this.response);
         }
     };
 
     xhttp.open('GET', url + '/get-all', true);
     xhttp.send();
+}
+
+
+function search(){
+    let keyword = document.getElementById('keyword').value;
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            fillTable(this.response);
+        }
+    };
+
+    xhttp.open('POST', url + '/search', true);
+    xhttp.send(keyword);
+}
+
+function fillTable(response){
+    let eigenaren = JSON.parse(response);
+    let tableBody = document.getElementById('keuringTable');
+    let bodyContent = '';
+
+    eigenaren.forEach( item => {
+        bodyContent += `<tr>
+            <td>` +
+                item.keuringsDatum.dayOfMonth + `-` + item.keuringsDatum.month + `-` + item.keuringsDatum.year +
+            `</td>
+            <td>` +
+                item.controleur.naam + ` ` + item.controleur.voorNaam +
+            `</td>
+            <td>` + item.boot.shipCode + `</td>
+            <td>` +
+                item.boot.eigenaar.naam + ` ` + item.boot.eigenaar.voorNaam +
+            `</td>
+            <td>` + item.status + `</td>
+        </tr>`;
+    });
+
+    tableBody.innerHTML = bodyContent;
 }
