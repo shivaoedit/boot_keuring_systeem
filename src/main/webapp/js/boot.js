@@ -68,6 +68,9 @@ function getOne(){
 
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
+            document.getElementById("additionalInfo").style.display = "block";
+            getKeuringBewijzen();
+
             let boot = JSON.parse(this.response);
             let eigenaar = document.getElementById('eigenaar');
             let type = document.getElementById('type');
@@ -109,11 +112,63 @@ function getOne(){
             brandstof.disabled = true;
 
             let saveButton = document.getElementById('saveButton')
-            saveButton.innerHTML = '<button class="btn btn-warning waves-effect" onclick="goback()">Go back</button>'
+            saveButton.innerHTML = '<button class="btn btn-warning waves-effect" onclick="goback()">Terug</button>'
         }
     };
 
     xhttp.open('GET', url + '/get-one/' + id, true);
+    xhttp.send();
+}
+
+function getKeuringBewijzen(){
+    let id = new URL(window.location.href).searchParams.get('id');
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            getEigenschappen();
+
+            let bewijzen = JSON.parse(this.response);
+            let tableBody = document.getElementById('keuringsBewijsTable');
+            let bodyContent = '';
+
+            bewijzen.forEach( item => {
+                bodyContent += `<tr>
+                        <td>` + item.id + `</td>
+                        <td>` + item.keuringsDatum + `</td>
+                        <td>` + item.vervalDatum + `</td>
+                    </tr>`;
+            });
+
+            tableBody.innerHTML = bodyContent;
+        }
+    };
+
+    xhttp.open('GET', url + '/get-keuring-bewijzen/' + id, true);
+    xhttp.send();
+}
+
+function getEigenschappen(){
+    let id = new URL(window.location.href).searchParams.get('id');
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let eigenschappen = JSON.parse(this.response);
+            let tableBody = document.getElementById('eigenschapTable');
+            let bodyContent = '';
+
+            eigenschappen.forEach( item => {
+                bodyContent += `<tr>
+                        <td>` + item.eigenschap + `</td>
+                    </tr>`;
+            });
+
+            tableBody.innerHTML = bodyContent;
+        }
+    };
+
+    xhttp.open('GET', url + '/get-boot-eigenschappen/' + id, true);
     xhttp.send();
 }
 

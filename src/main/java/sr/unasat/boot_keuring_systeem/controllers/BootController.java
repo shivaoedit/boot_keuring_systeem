@@ -14,10 +14,15 @@ import java.util.List;
 public class BootController extends AbstractCrudController<Boot, BootDto> {
     private BootService service;
     private TypeMapper typeMapper;
+    private KeuringBewijsMapper bewijsMapper;
+    private EigenschapMapper eigenschapMapper;
+
     public BootController() {
         super(BootServiceImp.getService(), BootMapper.getMapper());
         service = BootServiceImp.getService();
         typeMapper = TypeMapper.getMapper();
+        bewijsMapper = KeuringBewijsMapper.getMapper();
+        eigenschapMapper = EigenschapMapper.getMapper();
     }
 
     @Path("/get-all-types")
@@ -25,5 +30,21 @@ public class BootController extends AbstractCrudController<Boot, BootDto> {
     @Produces(MediaType.APPLICATION_JSON)
     public List<TypeDto> getAllTypes(){
         return typeMapper.toDtoList(this.service.getAllTypes());
+    }
+
+    @Path("/get-keuring-bewijzen/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<KeuringBewijsDto> getKeuringBewijzen(@PathParam("id") Long id){
+        Boot boot = this.service.getOne(id);
+        return bewijsMapper.toDtoList(boot.getKeuringBewijslist());
+    }
+
+    @Path("/get-boot-eigenschappen/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<EigenschapDto> getEigenschappen(@PathParam("id") Long id){
+        Boot boot = this.service.getOne(id);
+        return eigenschapMapper.toDtoList(boot.getEigenschapList());
     }
 }

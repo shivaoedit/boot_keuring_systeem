@@ -11,6 +11,7 @@ public class KeuringBewijs {
     private Long id;
 
     private LocalDate keuringsDatum;
+
     private LocalDate vervalDatum;
 
     @ManyToOne(cascade = CascadeType.ALL)

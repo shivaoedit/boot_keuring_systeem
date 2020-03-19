@@ -80,7 +80,7 @@ function getOne(){
             landCode.disabled = true;
 
             let saveButton = document.getElementById('saveButton')
-            saveButton.innerHTML = '<button class="btn btn-warning waves-effect" onclick="goback()">Go back</button>'
+            saveButton.innerHTML = '<button class="btn btn-warning waves-effect" onclick="goback()">Terug</button>'
         }
     };
 
