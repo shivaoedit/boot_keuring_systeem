@@ -15,6 +15,8 @@ public class ControleurDto {
 
     private RankDto rank;
 
+    private int aantalKeuringen;
+
     public Long getId() {
         return id;
     }
@@ -69,5 +71,13 @@ public class ControleurDto {
 
     public void setRank(RankDto rank) {
         this.rank = rank;
+    }
+
+    public int getAantalKeuringen() {
+        return aantalKeuringen;
+    }
+
+    public void setAantalKeuringen(int aantalKeuringen) {
+        this.aantalKeuringen = aantalKeuringen;
     }
 }

@@ -1,6 +1,5 @@
 package sr.unasat.boot_keuring_systeem.controllers;
 
-import sr.unasat.boot_keuring_systeem.dto.BootDto;
 import sr.unasat.boot_keuring_systeem.mappers.standards.Mapper;
 import sr.unasat.boot_keuring_systeem.services.standards.CrudService;
 
@@ -64,5 +63,4 @@ public abstract class AbstractCrudController<E, D> {
         }
         return mapper.toDtoList(this.service.search(keyword));
     }
-
 }

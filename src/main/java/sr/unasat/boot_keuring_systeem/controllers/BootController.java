@@ -1,10 +1,8 @@
 package sr.unasat.boot_keuring_systeem.controllers;
 
-import sr.unasat.boot_keuring_systeem.dto.BootDto;
-import sr.unasat.boot_keuring_systeem.dto.TypeDto;
+import sr.unasat.boot_keuring_systeem.dto.*;
 import sr.unasat.boot_keuring_systeem.entities.Boot;
-import sr.unasat.boot_keuring_systeem.mappers.specifications.BootMapper;
-import sr.unasat.boot_keuring_systeem.mappers.specifications.TypeMapper;
+import sr.unasat.boot_keuring_systeem.mappers.specifications.*;
 import sr.unasat.boot_keuring_systeem.services.specifications.BootServiceImp;
 import sr.unasat.boot_keuring_systeem.services.standards.BootService;
 
