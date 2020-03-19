@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Boot keuring systeem</title>
+
+        <!-- CSS -->
+        <link href="../../css/app.min.1.css" rel="stylesheet">
+        <link href="../../css/app.min.2.css" rel="stylesheet">
+
+        <link href="../../vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+        <link href="../../vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+        <link href="../../vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="login" data-lbg="teal">
+            <div class="l-block toggled" id="l-login">
+                <div class="lb-header palette-Teal bg">
+                    <i class="zmdi zmdi-account-circle"></i>
+                    Hi there! Please Sign in
+                </div>
+
+                <div class="lb-body">
+                    <div class="form-group" id="usernameFormGroup">
+                        <div class="fg-line">
+                            <input type="text" class="input-sm form-control fg-input"
+                                placeholder="Enter your username" name="gebruikersNaam" id="gebruikersNaam">
+
+                            <div id="gebruikersFeedback" style="display: none;">
+                                <small class="help-block">Gebruikersnaam is verplicht</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="wachtwoordFormGroup">
+                        <div class="fg-line">
+                            <input type="password" class="input-sm form-control fg-input"
+                                   placeholder="Enter your password" name="wachtwoord" id="wachtwoord">
+
+                            <div id="wachtwoordFeedback" style="display: none;">
+                                <small class="help-block">Wachtwoord is verplicht</small>
+                            </div>
+
+                            <div id="loginFeedback" style="display: none;">
+                                <small class="help-block">Uw gebruikersnaam of wachtwoord is incorrect</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn palette-Teal bg" onclick="validateCredentials()">Sign in</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../vendors/bower_components/Waves/dist/waves.min.js"></script>
+        <script src="../../js/authentication.js"></script>
+    </body>
+</html>

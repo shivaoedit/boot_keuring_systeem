@@ -1,6 +1,6 @@
-package sr.unasat.boot_keuring_systeem.DAO.specifications;
+package sr.unasat.boot_keuring_systeem.dao.specifications;
 
-import sr.unasat.boot_keuring_systeem.DAO.standards.RapportageDao;
+import sr.unasat.boot_keuring_systeem.dao.standards.RapportageDao;
 import sr.unasat.boot_keuring_systeem.entities.*;
 
 import javax.persistence.*;

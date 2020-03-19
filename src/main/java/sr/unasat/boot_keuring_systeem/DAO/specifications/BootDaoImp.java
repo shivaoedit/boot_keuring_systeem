@@ -1,81 +1,22 @@
-package sr.unasat.boot_keuring_systeem.DAO.specifications;
+package sr.unasat.boot_keuring_systeem.dao.specifications;
 
-import sr.unasat.boot_keuring_systeem.DAO.standards.BootDao;
+import sr.unasat.boot_keuring_systeem.dao.standards.BootDao;
 import sr.unasat.boot_keuring_systeem.entities.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-public class BootDaoImp implements BootDao {
-    private EntityManager entityManager;
+public class BootDaoImp extends AbstractCrudDao<Boot> implements BootDao {
+    private static BootDao dao;
 
-    public BootDaoImp(EntityManager entityManager){
-        this.entityManager = entityManager;
-    }
+    private BootDaoImp(){}
 
-    @Override
-    public List<Boot> getAllBoten(){
-        entityManager.getTransaction().begin();
-
-        String boot_jpql = "select b from Boot b";
-        TypedQuery<Boot> query = entityManager.createQuery(boot_jpql, Boot.class);
-        List<Boot> bootList = query.getResultList();
-
-        entityManager.getTransaction().commit();
-        return bootList;
-    }
-
-    @Override
-    public void addBoot(Boot boot){
-        try{
-            entityManager.getTransaction().begin();
-            entityManager.persist(boot);
-            entityManager.getTransaction().commit();
-            System.out.println("Boot toegevoegd");
-        }catch(Exception e){
-            System.out.println("Boot toevoegen mislukt.");
+    public static BootDao getDao(){
+        if(dao == null){
+            dao = new BootDaoImp();
         }
-    }
 
-    @Override
-    public void updateBoot(Boot boot){
-        try{
-            entityManager.getTransaction().begin();
-            entityManager.persist(boot);
-            entityManager.getTransaction().commit();
-            System.out.println("Boot bijgewerkt.");
-        }catch(Exception e){
-            System.out.println("Boot bijwerken mislukt.");
-        }
-    }
-
-    @Override
-    public List<Boot> findBootByEigenaar(long eigenaarId){
-        entityManager.getTransaction().begin();
-
-        String jpql = "SELECT b FROM Boot b WHERE b.eigenaar.id = :eigenaarId";
-        Query query = entityManager.createQuery(jpql, Boot.class);
-        query.setParameter("eigenaarId", eigenaarId);
-
-        List<Boot> bootList = query.getResultList();
-
-        entityManager.getTransaction().commit();
-        return bootList;
-    }
-
-    @Override
-    public List<Boot> findBootByKeyword(long eigenaarId, String keyword){
-        entityManager.getTransaction().begin();
-
-        String jpql = "SELECT b FROM Boot b WHERE b.eigenaar.id = :eigenaarId AND b.bootNaam LIKE :bootNaam";
-        Query query = entityManager.createQuery(jpql, Boot.class);
-        query.setParameter("eigenaarId", eigenaarId);
-        query.setParameter("bootNaam", "%" + keyword + "%");
-
-        List<Boot> bootList = query.getResultList();
-
-        entityManager.getTransaction().commit();
-        return bootList;
+        return dao;
     }
 
     public List<Type> getAllTypes(){
@@ -87,6 +28,32 @@ public class BootDaoImp implements BootDao {
 
         entityManager.getTransaction().commit();
         return typeList;
+    }
+
+    @Override
+    public Type getOneType(Long id) {
+        entityManager.getTransaction().begin();
+
+        String type_jpql = "select t from Type t WHERE id = :id";
+        TypedQuery<Type> query = entityManager.createQuery(type_jpql, Type.class);
+        query.setParameter("id", id);
+        Type type = query.getSingleResult();
+
+        entityManager.getTransaction().commit();
+        return type;
+    }
+
+    @Override
+    public List<Boot> findBootByKeyword(String keyword){
+        entityManager.getTransaction().begin();
+
+        String jpql = "SELECT b FROM Boot b WHERE b.bootNaam LIKE :bootNaam";
+        TypedQuery<Boot> query = entityManager.createQuery(jpql, Boot.class);
+        query.setParameter("bootNaam", "%" + keyword + "%");
+
+        List<Boot> bootList = query.getResultList();
+        entityManager.getTransaction().commit();
+        return bootList;
     }
 
     public List<Eigenschap> getAllEigenschsppen(){

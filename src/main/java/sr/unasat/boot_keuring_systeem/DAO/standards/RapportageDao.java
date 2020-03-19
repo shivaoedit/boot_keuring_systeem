@@ -1,4 +1,4 @@
-package sr.unasat.boot_keuring_systeem.DAO.standards;
+package sr.unasat.boot_keuring_systeem.dao.standards;
 
 import sr.unasat.boot_keuring_systeem.entities.*;
 import java.time.LocalDate;

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boot keuring systeem</title>
+
+    <link href="../../../vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../../../vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="../../../vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+
+    <link href="../../../css/app.min.1.css" rel="stylesheet">
+    <link href="../../../css/app.min.2.css" rel="stylesheet">
+</head>
+<body data-ma-header="teal" onload="getEigenaarData()">
+<header id="header" class="media">
+    <div class="pull-left h-logo">
+        <a href="index.html" class="hidden-xs">
+            Boot keuringen
+            <small>Admin</small>
+        </a>
+    </div>
+
+    <ul class="pull-right h-menu">
+        <li class="dropdown hm-profile">
+            <a data-toggle="dropdown" href="">
+                <img src="../../../images/default.png" alt="">
+            </a>
+        </li>
+    </ul>
+
+    <div class="media-body h-search">
+        <form class="p-relative">
+            <input type="text" class="hs-input" placeholder="Search for people, files & reports">
+            <i class="zmdi zmdi-search hs-reset" data-ma-action="search-clear"></i>
+        </form>
+    </div>
+</header>
+
+<section id="main">
+    <aside style="position: absolute; left: 0;">
+        <ul class="main-menu" style="margin-top: 132px;">
+            <li id="keuringMenu">
+                <a id="keuringhref"><i class="zmdi zmdi-assignment-o"></i> Keuringen</a>
+            </li>
+            <li id="controleurMenu">
+                <a id="controleurhref"><i class="zmdi zmdi-accounts"></i> Controleurs</a>
+            </li>
+            <li id="eigenaarMenu">
+                <a id="eigenaarhref"><i class="zmdi zmdi-accounts-alt"></i> Eigenaren</a>
+            </li>
+            <li id="bootMenu">
+                <a id="boothref"><i class="zmdi zmdi-boat"></i> Boten</a>
+            </li>
+            <li id="rapportageMenu">
+                <a id="rapportagehref"><i class="zmdi zmdi-trending-up"></i> Rapportages</a>
+            </li>
+            <li>
+                <a id="logouthref"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+            </li>
+        </ul>
+    </aside>
+
+    <section id="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Boot toevoegen <small>Nieuwe boot toevoegen</small></h2>
+                </div>
+
+                <div class="card-body card-padding">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="fg-line form-group">
+                                <label for="eigenaar">Eigenaar</label>
+                                <select class="form-control input-sm" name="eigenaar" id="eigenaar"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fg-line form-group">
+                                <label for="type">Type</label>
+                                <select class="form-control input-sm" name="type" id="type"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="fg-line form-group">
+                                <label for="shipCode">Code</label>
+                                <input type="text" class="form-control input-sm" placeholder="Code" name="shipCode" id="shipCode">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="fg-line form-group">
+                                <label for="bootNaam">BootNaam</label>
+                                <input type="text" class="form-control input-sm" placeholder="BootNaam" name="bootNaam" id="bootNaam">
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="fg-line form-group">
+                                <label for="bouwjaar">Bouwjaar</label>
+                                <input type="text" class="form-control input-sm" placeholder="Bouwjaar" name="bouwjaar" id="bouwjaar">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="fg-line form-group">
+                                <label for="kleur">Kleur</label>
+                                <input type="text" class="form-control input-sm" placeholder="Kleur" name="kleur" id="kleur">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="fg-line form-group">
+                                <label for="lengte">Lengte</label>
+                                <input type="text" class="form-control input-sm" placeholder="Lengte" name="lengte" id="lengte">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="fg-line form-group">
+                                <label for="breedte">Breedte</label>
+                                <input type="text" class="form-control input-sm" placeholder="Breedte" name="breedte" id="breedte">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="fg-line form-group">
+                                <label for="mast">Mast</label>
+                                <input type="text" class="form-control input-sm" placeholder="Mast" name="mast" id="mast">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="fg-line form-group">
+                                <label for="spanten">Spanten</label>
+                                <input type="text" class="form-control input-sm" placeholder="Spanten" name="spanten" id="spanten">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fg-line form-group">
+                                <label for="motorMerk">MotorMerk</label>
+                                <input type="text" class="form-control input-sm" placeholder="MotorMerk" name="motorMerk" id="motorMerk">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="fg-line form-group">
+                                <label for="brandstof">Brandstof</label>
+                                <input type="text" class="form-control input-sm" placeholder="Brandstof" name="brandstof" id="brandstof">
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary waves-effect" onclick="save()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        Copyright &copy; 2020 Shiva Oedit
+
+        <ul class="f-menu">
+            <li><a href="">Home</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+    </footer>
+</section>
+
+<script src="../../../vendors/bower_components/Waves/dist/waves.min.js"></script>
+<script src="../../../js/boot.js"></script>
+<script src="../../../js/authentication.js"></script>
+<script src="../../../js/menu.js"></script>
+</body>
+</html>

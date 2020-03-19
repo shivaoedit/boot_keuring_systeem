@@ -1,12 +1,14 @@
-package sr.unasat.boot_keuring_systeem.DAO.standards;
+package sr.unasat.boot_keuring_systeem.dao.standards;
 
 import sr.unasat.boot_keuring_systeem.entities.Boot;
+import sr.unasat.boot_keuring_systeem.entities.Type;
+
 import java.util.List;
 
-public interface BootDao {
-    List<Boot> getAllBoten();
-    void addBoot(Boot boot);
-    void updateBoot(Boot boot);
-    List<Boot> findBootByEigenaar(long eigenaarId);
-    List<Boot> findBootByKeyword(long eigenaarId, String keyword);
+public interface BootDao extends CrudDao<Boot> {
+    List<Boot> findBootByKeyword(String keyword);
+
+    List<Type> getAllTypes();
+
+    Type getOneType(Long id);
 }

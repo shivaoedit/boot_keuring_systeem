@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Boot Keuring Systeem</title>
+    </head>
+    <body onload="checkIfLoggedIn()">
+        <script>
+            let url = "http://localhost:8080/boot_keuring_systeem/api/auth/user-authenticated";
+
+            function checkIfLoggedIn(){
+                let xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        if(this.response === 'true'){
+                            window.location = "/boot_keuring_systeem/views/dashboard.html";
+                        } else {
+                            window.location = "/boot_keuring_systeem/views/auth/login.html";
+                        }
+                    }
+                };
+
+                xhttp.open('POST', url, true);
+                xhttp.setRequestHeader('Content-Type', 'application/json');
+                xhttp.send();
+
+                window.location = "/boot_keuring_systeem/views/auth/login.html";
+            }
+        </script>
+    </body>
+</html>

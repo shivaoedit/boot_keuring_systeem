@@ -1,58 +1,21 @@
-package sr.unasat.boot_keuring_systeem.DAO.specifications;
+package sr.unasat.boot_keuring_systeem.dao.specifications;
 
-import sr.unasat.boot_keuring_systeem.DAO.standards.EigenaarDao;
+import sr.unasat.boot_keuring_systeem.dao.standards.EigenaarDao;
 import sr.unasat.boot_keuring_systeem.entities.Eigenaar;
 import javax.persistence.*;
 import java.util.List;
 
-public class EigenaarDaoImp implements EigenaarDao {
-    private EntityManager entityManager;
+public class EigenaarDaoImp extends AbstractCrudDao<Eigenaar> implements EigenaarDao {
+    private static EigenaarDao dao;
 
-    public EigenaarDaoImp(EntityManager entityManager){
-        this.entityManager = entityManager;
-    }
+    private EigenaarDaoImp(){}
 
-    @Override
-    public List<Eigenaar> getAllEigenaren(){
-        entityManager.getTransaction().begin();
-
-        String eigenaar_jpql = "select e from Eigenaar e";
-        TypedQuery<Eigenaar> query = entityManager.createQuery(eigenaar_jpql, Eigenaar.class);
-        List<Eigenaar> eigenaarList = query.getResultList();
-
-        entityManager.getTransaction().commit();
-        return eigenaarList;
-    }
-
-    @Override
-    public void addEigenaar(Eigenaar eigenaar){
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(eigenaar);
-            entityManager.getTransaction().commit();
-            System.out.println("Eigenaar toegevoegd");
-        }catch(Exception e){
-            System.out.println("Eigenaar toevoegen mislukt.");
+    public static EigenaarDao getDao(){
+        if(dao == null){
+            dao = new EigenaarDaoImp();
         }
-    }
 
-    @Override
-    public void updateEigenaar(Eigenaar eigenaar){
-        try{
-            entityManager.getTransaction().begin();
-            entityManager.persist(eigenaar);
-            entityManager.getTransaction().commit();
-            System.out.println("Eigenaar bijgewerkt.");
-        }catch(Exception e){
-            System.out.println("Eigenaar bijwerken mislukt.");
-        }
-    }
-
-    @Override
-    public void deleteEigenaar(Eigenaar eigenaar){
-        entityManager.getTransaction().begin();
-        entityManager.remove(eigenaar);
-        entityManager.getTransaction().commit();
+        return dao;
     }
 
     @Override
@@ -60,7 +23,7 @@ public class EigenaarDaoImp implements EigenaarDao {
         entityManager.getTransaction().begin();
 
         String jpql = "SELECT e FROM Eigenaar e WHERE e.naam LIKE :naam OR e.voorNaam LIKE :voornaam";
-        Query query = entityManager.createQuery(jpql, Eigenaar.class);
+        TypedQuery<Eigenaar> query = entityManager.createQuery(jpql, Eigenaar.class);
         query.setParameter("voornaam", "%" + keyword + "%");
         query.setParameter("naam", "%" + keyword + "%");
 

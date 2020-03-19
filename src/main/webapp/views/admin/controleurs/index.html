@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Boot keuring systeem</title>
+
+        <link href="../../../vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+        <link href="../../../vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="../../../vendors/bower_components/google-material-color/dist/palette.css" rel="stylesheet">
+
+        <link href="../../../css/app.min.1.css" rel="stylesheet">
+        <link href="../../../css/app.min.2.css" rel="stylesheet">
+    </head>
+
+    <body data-ma-header="teal" onload="getAll()">
+        <header id="header" class="media">
+            <div class="pull-left h-logo">
+                <a href="index.html" class="hidden-xs">
+                    Boot keuringen
+                    <small>Admin</small>
+                </a>
+            </div>
+
+            <ul class="pull-right h-menu">
+                <li class="dropdown hm-profile">
+                    <a data-toggle="dropdown" href="">
+                        <img src="../../../images/default.png" alt="">
+                    </a>
+                </li>
+            </ul>
+
+            <div class="media-body h-search">
+                <form class="p-relative">
+                    <input type="text" class="hs-input" placeholder="Search for people, files & reports">
+                    <i class="zmdi zmdi-search hs-reset" data-ma-action="search-clear"></i>
+                </form>
+            </div>
+        </header>
+
+        <section id="main">
+            <aside style="position: absolute; left: 0;">
+                <ul class="main-menu" style="margin-top: 132px;">
+                    <li id="keuringMenu">
+                        <a id="keuringhref"><i class="zmdi zmdi-assignment-o"></i> Keuringen</a>
+                    </li>
+                    <li id="controleurMenu">
+                        <a id="controleurhref"><i class="zmdi zmdi-accounts"></i> Controleurs</a>
+                    </li>
+                    <li id="eigenaarMenu">
+                        <a id="eigenaarhref"><i class="zmdi zmdi-accounts-alt"></i> Eigenaren</a>
+                    </li>
+                    <li id="bootMenu">
+                        <a id="boothref"><i class="zmdi zmdi-boat"></i> Boten</a>
+                    </li>
+                    <li id="rapportageMenu">
+                        <a id="rapportagehref"><i class="zmdi zmdi-trending-up"></i> Rapportages</a>
+                    </li>
+                    <li>
+                        <a id="logouthref"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+                    </li>
+                </ul>
+            </aside>
+
+            <section id="content">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 style="display: inline-block">Controleurs <small>Overzicht van alle controleurs</small></h2>
+                            <a href="edit.html">
+                                <button class="btn palette-Light-Green bg btn-float waves-effect waves-circle waves-float" style="top: 27px"><i class="zmdi zmdi-plus"></i></button>
+                            </a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ControleurNr</th>
+                                    <th>Gebruikersnaam</th>
+                                    <th>Naam</th>
+                                    <th>Voornaam</th>
+                                    <th>Rank</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="controleurTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer id="footer">
+                Copyright &copy; 2020 Shiva Oedit
+
+                <ul class="f-menu">
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Contact</a></li>
+                </ul>
+            </footer>
+        </section>
+
+        <script src="../../../vendors/bower_components/Waves/dist/waves.min.js"></script>
+        <script src="../../../js/controleur.js"></script>
+        <script src="../../../js/authentication.js"></script>
+        <script src="../../../js/menu.js"></script>
+    </body>
+</html>

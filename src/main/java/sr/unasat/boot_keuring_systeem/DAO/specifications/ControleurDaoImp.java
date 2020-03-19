@@ -1,52 +1,41 @@
-package sr.unasat.boot_keuring_systeem.DAO.specifications;
+package sr.unasat.boot_keuring_systeem.dao.specifications;
 
-import sr.unasat.boot_keuring_systeem.DAO.standards.ControleurDao;
+import sr.unasat.boot_keuring_systeem.dao.standards.ControleurDao;
 import sr.unasat.boot_keuring_systeem.config.JPAConfiguration;
 import sr.unasat.boot_keuring_systeem.entities.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-public class ControleurDaoImp implements ControleurDao {
-    private EntityManager entityManager;
+public class ControleurDaoImp extends AbstractCrudDao<Controleur> implements ControleurDao {
+    private static ControleurDao dao;
 
-    public ControleurDaoImp(EntityManager entityManager){
-        this.entityManager = entityManager;
+    private ControleurDaoImp(){}
+
+    public static ControleurDao getDao(){
+        if(dao == null){
+            dao = new ControleurDaoImp();
+        }
+
+        return dao;
     }
 
     @Override
-    public List<Controleur> getAllControleurs(){
+    public Controleur authentication(String gebruikersNaam, String wachtwoord){
         entityManager.getTransaction().begin();
 
-        String controleur_jpql = "select c from Controleur c";
+        String controleur_jpql = "select c from Controleur c where c.gebruikersNaam = :gebruikersNaam and c.wachtwoord = :wachtwoord";
         TypedQuery<Controleur> query = entityManager.createQuery(controleur_jpql, Controleur.class);
+        query.setParameter("gebruikersNaam", gebruikersNaam);
+        query.setParameter("wachtwoord", wachtwoord);
         List<Controleur> controleurList = query.getResultList();
 
         entityManager.getTransaction().commit();
-        return controleurList;
-    }
 
-    @Override
-    public void addControleur(Controleur controleur){
-        try{
-            entityManager.getTransaction().begin();
-            entityManager.persist(controleur);
-            entityManager.getTransaction().commit();
-            System.out.println("Controleur toegevoegd");
-        }catch(Exception e){
-            System.out.println("Controleur toevoegen mislukt.");
-        }
-    }
-
-    @Override
-    public void updateControleur(Controleur controleur){
-        try{
-            entityManager.getTransaction().begin();
-            entityManager.persist(controleur);
-            entityManager.getTransaction().commit();
-            System.out.println("Controleur bijgewerkt.");
-        }catch(Exception e){
-            System.out.println("Controleur bijwerken mislukt.");
+        if(controleurList.size() > 0) {
+            return controleurList.get(0);
+        }else{
+            return null;
         }
     }
 
@@ -65,18 +54,30 @@ public class ControleurDaoImp implements ControleurDao {
         return controleurList;
     }
 
-    // EXTRA METHODS
-    public List<Rank> getAllRanken(){
+    @Override
+    public List<Rank> getAllRanks() {
         entityManager.getTransaction().begin();
+        String jpql = "SELECT r FROM Rank r";
+        TypedQuery<Rank> query = entityManager.createQuery(jpql, Rank.class);
 
-        String rank_jpql = "select r from Rank r";
-        TypedQuery<Rank> query = entityManager.createQuery(rank_jpql, Rank.class);
         List<Rank> rankList = query.getResultList();
-
         entityManager.getTransaction().commit();
         return rankList;
     }
 
+    @Override
+    public Rank getOneRank(Long id) {
+        entityManager.getTransaction().begin();
+        String jpql = "SELECT r FROM Rank r WHERE id = :id";
+        TypedQuery<Rank> query = entityManager.createQuery(jpql, Rank.class);
+        query.setParameter("id", id);
+
+        Rank rank = query.getSingleResult();
+        entityManager.getTransaction().commit();
+        return rank;
+    }
+
+    @Override
     public String getLastControleurNummer(){
         String controleur_jpql = "select c from Controleur c ORDER BY c.id DESC";
         TypedQuery<Controleur> query = entityManager.createQuery(controleur_jpql, Controleur.class);
