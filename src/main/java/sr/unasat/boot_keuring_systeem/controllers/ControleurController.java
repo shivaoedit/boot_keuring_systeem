@@ -30,4 +30,27 @@ public class ControleurController extends AbstractCrudController<Controleur, Con
     public List<RankDto> getAllRanks(){
         return rankMapper.toDtoList(service.getAllRanks());
     }
+
+    @Override
+    public boolean update(Long id, ControleurDto dto){
+        Controleur controleur = service.getOne(id);
+
+        if(dto.getNaam() != null && !dto.getNaam().equals("")){
+            controleur.setNaam(dto.getNaam());
+        }
+
+        if(dto.getVoorNaam() != null && !dto.getVoorNaam().equals("")){
+            controleur.setVoorNaam(dto.getVoorNaam());
+        }
+
+        if(dto.getGebruikersNaam() != null && !dto.getGebruikersNaam().equals("")){
+            controleur.setGebruikersNaam(dto.getGebruikersNaam());
+        }
+
+        if(dto.getWachtwoord() != null && !dto.getWachtwoord().equals("")){
+            controleur.setWachtwoord(dto.getWachtwoord());
+        }
+
+        return service.save(controleur);
+    }
 }

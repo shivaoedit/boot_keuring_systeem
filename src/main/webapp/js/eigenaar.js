@@ -54,6 +54,40 @@ function remove(id){
     xhttp.send();
 }
 
+function getOne(){
+    let id = new URL(window.location.href).searchParams.get('id');
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let eigenaar = JSON.parse(this.response);
+            let naam = document.getElementById('naam');
+            let voorNaam = document.getElementById('voorNaam');
+            let geboorteDatum = document.getElementById('geboorteDatum');
+            let paspoortNummer = document.getElementById('paspoortNummer');
+            let landCode = document.getElementById('landCode');
+
+            naam.value = eigenaar.naam;
+            voorNaam.value = eigenaar.voorNaam;
+            geboorteDatum.value = eigenaar.geboorteDatum;
+            paspoortNummer.value = eigenaar.paspoort.paspoortNummer;
+            landCode.value = eigenaar.paspoort.landCode;
+
+            naam.disabled = true;
+            voorNaam.disabled = true;
+            geboorteDatum.disabled = true;
+            paspoortNummer.disabled = true;
+            landCode.disabled = true;
+
+            let saveButton = document.getElementById('saveButton')
+            saveButton.innerHTML = '<button class="btn btn-warning waves-effect" onclick="goback()">Go back</button>'
+        }
+    };
+
+    xhttp.open('GET', url + '/get-one/' + id, true);
+    xhttp.send();
+}
+
 function search(){
     let xhttp = new XMLHttpRequest();
 
@@ -68,6 +102,16 @@ function search(){
     xhttp.send(keyword);
 }
 
+function getOneData(){
+    if(window.location.href.includes('?id=')){
+        getOne();
+    }
+}
+
+function goback(){
+    window.location = 'index.html';
+}
+
 function fillTable(response){
     let eigenaren = JSON.parse(response);
     let tableBody = document.getElementById('eigenaarTable');
@@ -79,9 +123,14 @@ function fillTable(response){
                         <td>` + item.naam + `</td>
                         <td>` + item.voorNaam + `</td>
                         <td>` +
-            item.geboorteDatum.dayOfMonth + `-` + item.geboorteDatum.month + `-` + item.geboorteDatum.year +
-            `</td>
+                            item.geboorteDatum.dayOfMonth + `-` + item.geboorteDatum.month + `-` + item.geboorteDatum.year +
+                        `</td>
                         <td>
+                            <a href="edit.html?id=` + item.id + `">
+                                <button type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                                    <span class="zmdi zmdi-eye"></span>
+                                </button>
+                            </a>
                             <button type="button" class="btn btn-icon command-delete waves-effect waves-circle" onclick="remove(` + item.id + `)">
                                 <span class="zmdi zmdi-delete"></span>
                             </button>

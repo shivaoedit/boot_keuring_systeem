@@ -44,6 +44,10 @@ function getTypeData(){
             let types = JSON.parse(this.response);
             let type = document.getElementById('type');
 
+            if(window.location.href.includes('?id=')){
+                getOne();
+            }
+
             types.forEach( item => {
                 let opt = document.createElement("option");
                 opt.innerHTML = item.type;
@@ -56,6 +60,65 @@ function getTypeData(){
 
     xhttp.open('GET', url + '/get-all-types', true);
     xhttp.send();
+}
+
+function getOne(){
+    let id = new URL(window.location.href).searchParams.get('id');
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            let boot = JSON.parse(this.response);
+            let eigenaar = document.getElementById('eigenaar');
+            let type = document.getElementById('type');
+            let shipCode = document.getElementById('shipCode');
+            let bootNaam = document.getElementById('bootNaam');
+            let bouwjaar = document.getElementById('bouwjaar');
+            let kleur = document.getElementById('kleur');
+            let lengte = document.getElementById('lengte');
+            let breedte = document.getElementById('breedte');
+            let mast = document.getElementById('mast');
+            let spanten = document.getElementById('spanten');
+            let motorMerk = document.getElementById('motorMerk');
+            let brandstof = document.getElementById('brandstof');
+
+            eigenaar.value = boot.eigenaar.id;
+            type.value = boot.type.id;
+            shipCode.value = boot.shipCode;
+            bootNaam.value = boot.bootNaam;
+            bouwjaar.value = boot.bouwjaar;
+            kleur.value = boot.kleur;
+            lengte.value = boot.lengte;
+            breedte.value = boot.breedte;
+            mast.value = boot.mast;
+            spanten.value = boot.spanten;
+            motorMerk.value = boot.motorMerk;
+            brandstof.value = boot.brandstof;
+
+            eigenaar.disabled = true;
+            type.disabled = true;
+            shipCode.disabled = true;
+            bootNaam.disabled = true;
+            bouwjaar.disabled = true;
+            kleur.disabled = true;
+            lengte.disabled = true;
+            breedte.disabled = true;
+            mast.disabled = true;
+            spanten.disabled = true;
+            motorMerk.disabled = true;
+            brandstof.disabled = true;
+
+            let saveButton = document.getElementById('saveButton')
+            saveButton.innerHTML = '<button class="btn btn-warning waves-effect" onclick="goback()">Go back</button>'
+        }
+    };
+
+    xhttp.open('GET', url + '/get-one/' + id, true);
+    xhttp.send();
+}
+
+function goback(){
+    window.location = 'index.html';
 }
 
 function save(){
@@ -81,7 +144,7 @@ function save(){
 
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4) {
-            window.location = 'index.html'
+            window.location = 'index.html';
         }
     };
 
@@ -113,11 +176,18 @@ function fillTable(response){
         bodyContent += `<tr>
                         <td>` + item.shipCode + `</td>
                         <td>` +
-            item.eigenaar.naam + ` ` + item.eigenaar.voorNaam +
-            `</td>
+                            item.eigenaar.naam + ` ` + item.eigenaar.voorNaam +
+                        `</td>
                         <td>` + item.type.type + `</td>
                         <td>` + item.bootNaam + `</td>
                         <td>` + item.bouwjaar + `</td>
+                        <td>
+                            <a href="edit.html?id=` + item.id + `">
+                                <button type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                                    <span class="zmdi zmdi-eye"></span>
+                                </button>
+                            </a>
+                        </td>
                     </tr>`;
     });
 
