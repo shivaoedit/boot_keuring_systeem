@@ -10,7 +10,7 @@ import java.util.List;
 
 public class KeuringDaoProxy extends AbstractCrudDao<Keuring> implements KeuringDao {
     private KeuringDao dao = KeuringDaoImp.getDao();
-    private static KeuringDao proxyDao = KeuringDaoImp.getDao();
+    private static KeuringDao proxyDao;
 
     private KeuringDaoProxy(){}
 
